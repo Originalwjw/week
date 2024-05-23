@@ -71,7 +71,16 @@ async function getData(pageNo, pageSize, name, tags, startTime, endTime) {
  */
 /* eslint-disable */  
 async function editData(id, name, description, tags) {
-
+  try {
+    const dataList = read(FILE_NAME);
+    let filteredData = dataList.filter(item => item.id===id);
+    filteredData.name = name
+    filteredData.description = description
+    filteredData.tags = tags
+    save([...dataList, filteredData], FILE_NAME);
+  } catch (error) {
+    throw error;
+  }
 }
 
 /**

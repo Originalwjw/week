@@ -20,7 +20,7 @@ import './index.css';
 
 import ModalSet from './Component/ModalSet';
 import SearchBar from './Component/SearchBar';
-import { delData, getData } from '../../services/dataApi';
+import { addData, delData, getData } from '../../services/dataApi';
 import TextArea from 'antd/es/input/TextArea';
 import dayjs from 'dayjs';
 import { useTagsList } from './api';
@@ -100,7 +100,11 @@ function DataIndex() {
       render: data => {
         return (
           <Space size="middle">
-            <Button type="primary" shape="circle" icon={<EditOutlined />}/>
+            <Button 
+              type="primary" 
+              shape="circle" 
+              icon={<EditOutlined />}
+              onClick={()=>editDataButton(data)}/>
               <Popconfirm
                 title="确认删除?"
                 onConfirm={()=>delDataButton(data)}
@@ -177,8 +181,6 @@ function DataIndex() {
   }, []);
 
   // 表格分页
-  // const onChange = ()=>{
-  // };
   const onChange = (pagination: any) => {
     setReqDate((prevState) => ({
       ...prevState,
@@ -190,60 +192,40 @@ function DataIndex() {
 
   //添加数据
   const addItem = ()=>{
+    setCurrentItem({})
     setmodelVisible(true)
   }
 
   //添加(编辑)成功后，重新拉取列表（这里参数要复原）
-  const modalConfigm = ()=>{
+  const modalConfigm = async (data: any)=>{
     setmodelVisible(false);
-    // 重新获取数据
-    setReqDate((prevState) => ({ ...prevState, page: 1 }));
-  }
+    console.log("ModalData:", data);
+    // await addData(data)
 
-    //删除
-    const delDataButton =async (data: { id: string }) => {
-      console.log("删除", data);
-      await delData({ id: data.id });
-        // 更新列表
-          setReqDate({
-        ...reqDate,
-      })
-    }
+    setReqDate({
+      ...reqDate,
+    })
+  }
+  //编辑
+  const editDataButton = async(data: any)=>{
+    setmodelVisible(true);
+    setCurrentItem({...data})
+    // console.log(data);
+    
+  }
+  
+  //删除
+  const delDataButton =async (data: { id: string }) => {
+    // console.log("删除", data);
+    await delData({ id: data.id });
+      // 更新列表
+        setReqDate({
+      ...reqDate,
+    })
+  }
   const setmodelVisibleWarp = ()=>{
     setmodelVisible(false);
   }
-  //   //新增数据对话框
-  //   const [isModalOpen, setIsModalOpen] = useState(false);
-  //   const showModal = () => {
-  //     setIsModalOpen(true);
-  //   };
-  //   const handleOk = () => {
-  //     setIsModalOpen(false);
-  //     ModalFinish()
-  
-  //   };
-  //   const handleCancel = () => {
-  //     setIsModalOpen(false);
-  //   };
-  //     //提交表单的modal
-  // const ModalFinish=(formValue)=>{
-  //   console.log(formValue);
-  //   // //1.按照接口文档格式处理收集的表单数据
-  //   // const { title, content, channel_id } = formValue
-  //   // const reqData = {
-  //   //   title,
-  //   //   content,
-  //   //   channel_id,
-  //   // }
-  //   // if (articleId) {
-  //   //   //更新接口
-  //   // updateArticleAPI({...reqData,id:articleId})
-  //   // } else {
-  //   // //调用新增文章接口提交
-  //   // createArticleAPI(reqData)
-  //   // }
-
-  // }
   return (
     <div className="main-container">
       <div>
@@ -269,28 +251,6 @@ function DataIndex() {
               onOk={modalConfigm}
               onCancel={setmodelVisibleWarp}
             />
-          //   <Modal title="添加记录" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} okText="确认"cancelText="取消">
-          //   <Form onFinish={ModalFinish}>
-          //     <Form.Item label="名称" name="title" rules={[{ required: true, message: '请输入名称' }]}>
-          //       <Input showCount maxLength={20}  placeholder="请输入名称" />
-          //     </Form.Item>
-          //     <Form.Item label="描述" style={{marginLeft:11}}>
-          //       <TextArea showCount maxLength={50}  placeholder="请输入描述" />
-          //     </Form.Item>
-          //     <Form.Item label="标签" style={{marginLeft:11}} name="channel_id">
-          //       <Select
-          //         mode="tags"
-          //         placeholder="请输入标签"
-          //         // defaultValue="lucy"
-          //         // style={{ width: 200 }}
-          //       >
-          //         {channelList.map(item => 
-          //           <Option key={item.id} value={item.id}>{item.name}</Option>
-          //         )}
-          //       </Select>
-          //     </Form.Item>
-          //   </Form>
-          // </Modal>
           )}
         </div>
 

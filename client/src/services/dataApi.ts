@@ -9,8 +9,8 @@ export interface Data {
     pageSize: number;
 }
 
-
-export const addData = async (data: Partial<Data>) => {
+//Partial所以都是可选属性
+export const addData = async (data: Data) => {
     return apiInstance({
         url: '/data',
         method: 'POST',
@@ -26,8 +26,12 @@ export const getData = async (params: Data) => {
         params,
     })
 }
-export const editData = async () => {
-
+export const editData = async (data: any) => {
+    return apiInstance({
+        url: '/data',
+        method: 'PUT',
+        data,
+    });
 }
 
 export const delData = async (params: { id: string }) => {
