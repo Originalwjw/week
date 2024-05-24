@@ -1,3 +1,4 @@
+
 import apiInstance from '.'
 // 定义数据的类型
 export interface Data {
@@ -19,7 +20,8 @@ export const addData = async (data: Data) => {
 };
 
 
-export const getData = async (params: Data) => {
+export const getData = async (params: any) => {
+    console.log('params',params);
     return apiInstance({
         url:'/data',
         method:'GET',

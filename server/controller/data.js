@@ -20,7 +20,6 @@ async function addData(ctx) {
     const { data: tagData } = await tagsService.getTags();
 
     const allTagsId = tagData.map(item => item.id);
-    console.log('allTagsId', allTagsId);
 
     if (tags.length > 0) {
       const isTagExist = tags.every(id => allTagsId.includes(id));
@@ -59,10 +58,16 @@ async function getData(ctx) {
       pageNo = 1,
       pageSize = 10,
       name,
-      tags,
+      // tags,
       startTime,
       endTime,
     } = ctx.request.query;
+    // 获取 tags 参数
+    let tags = ctx.request.query['tags[]']; 
+    // 如果 tags 是字符串，则将其转换为数组
+    if (typeof tags === 'string') {
+      tags = [tags];
+    }
     // 调用数据服务模块的查询函数，根据条件查询数据
     const result = await dataService.getData(
       pageNo,
@@ -99,6 +104,28 @@ async function getData(ctx) {
  * @param {Object} ctx - Koa上下文对象
  */
 async function editData(ctx) {
+  try {
+    const { id, name, description, tags } = ctx.request.body;
+    
+    // 检查必要参数是否存在
+    if (!id) {
+      throw { status: 400, message: '缺少id参数' };
+    }
+    
+    // 调用数据服务模块的修改数据函数
+    await dataService.editData(id, name, description, tags);
+    
+    // 封装返回数据格式
+    const responseData = {
+      code: 200,
+      msg: '修改成功',
+    };
+    
+    // 返回结果
+    ctx.body = responseData;
+  } catch (error) {
+    
+  }
   return ctx;
 }
 

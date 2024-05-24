@@ -27,8 +27,8 @@ async function addData(newData) {
  */
 /* eslint-disable */  
 async function getData(pageNo, pageSize, name, tags, startTime, endTime) {
+  console.log('getData',pageNo, pageSize, name, tags, startTime, endTime);
   try {
-    console.log('getData',pageNo, pageSize, name, tags, startTime, endTime);
     // 读取data.json文件中的数据
     const dataList = read(FILE_NAME);
     let filteredData = dataList.reverse(); //按时间逆序排列
@@ -37,7 +37,8 @@ async function getData(pageNo, pageSize, name, tags, startTime, endTime) {
       filteredData = filteredData.filter(item => item.name.includes(name));
     }
     // 根据标签进行过滤
-    if (tags) {
+    if (tags&&tags[0] !== '') {
+      console.log('tags111');
       filteredData = filteredData.filter(item => tags.every(tag => item.tags.includes(tag)));
     }
     // 根据时间范围过滤
@@ -73,11 +74,18 @@ async function getData(pageNo, pageSize, name, tags, startTime, endTime) {
 async function editData(id, name, description, tags) {
   try {
     const dataList = read(FILE_NAME);
-    let filteredData = dataList.filter(item => item.id===id);
-    filteredData.name = name
-    filteredData.description = description
-    filteredData.tags = tags
-    save([...dataList, filteredData], FILE_NAME);
+    const updatedDataList = dataList.map(item => {
+      if (item.id === id) {
+        return {
+          ...item,
+          name,
+          description,
+          tags,
+        };
+      }
+      return item;
+    });
+    save(updatedDataList, FILE_NAME);
   } catch (error) {
     throw error;
   }

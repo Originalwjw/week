@@ -156,6 +156,8 @@ function DataIndex() {
           ...item,
           index: startIdx + idx + 1, // 计算序号
         }));
+        console.log('dataWithIndex',dataWithIndex);
+        
         setList(dataWithIndex);
         setCount(res.data.pageInfo.total);
       }
@@ -189,7 +191,6 @@ function DataIndex() {
     }));
   };
 
-
   //添加数据
   const addItem = ()=>{
     setCurrentItem({})
@@ -211,7 +212,9 @@ function DataIndex() {
     setmodelVisible(true);
     setCurrentItem({...data})
     // console.log(data);
-    
+  }
+  const setmodelVisibleWarp = ()=>{
+    setmodelVisible(false);
   }
   
   //删除
@@ -223,9 +226,7 @@ function DataIndex() {
       ...reqDate,
     })
   }
-  const setmodelVisibleWarp = ()=>{
-    setmodelVisible(false);
-  }
+
   return (
     <div className="main-container">
       <div>

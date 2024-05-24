@@ -21,7 +21,7 @@ function ModalSet(props: IProps) {
   };
 
   let isAddStatus = true; // 是否是新增状态
-  if (initialValues) {
+  if (initialValues && Object.keys(initialValues).length > 0) {
     isAddStatus = false
   }
   console.log(initialValues);
