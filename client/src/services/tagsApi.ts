@@ -2,7 +2,10 @@ import apiInstance from '.'
 // 定义数据的类型
 export interface Tags {
   tagsId: string,
-  tagsName: string
+  tagsName: string,
+  color?: '',
+  pageNo: number,
+  pageSize: number,
 }
 
 
@@ -14,7 +17,7 @@ export const addTag = async () => {
 };
 
 
-export const getTags = async (params?: Tags) => {
+export const getTags = async (params?: any) => {
   return apiInstance({
       url:'/tags',
       method:'GET',

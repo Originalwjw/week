@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import  { useEffect, useState, useCallback } from 'react';
 import {
   Button,
   Table,
@@ -14,7 +14,7 @@ import {
   Select,
 } from 'antd';
 
-import { DeleteOutlined, DiffOutlined, EditOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import type { TableProps } from 'antd';
 import './index.css';
 
@@ -48,7 +48,8 @@ function DataIndex() {
       key: 'index',
       width: 60,
       fixed: 'left',
-      render: (_, __, index) => index + 1,
+      dataIndex: 'index',
+      // render: (_, __, index) => index + 1,
     },
     {
       title: '标题',
@@ -124,25 +125,25 @@ function DataIndex() {
     },
   ];
 
-    const [reqDate, setReqDate] = useState({
-      name: '',
-      tags: [''] as string[],
-      startTime: '',
-      endTime: '',
-      pageNo: 1,
-      pageSize:2
-    });
-    const  tagsList  = useTagsList();
-
+  const [reqDate, setReqDate] = useState({
+    name: '',
+    tags: [''] as string[],
+    startTime: '',
+    endTime: '',
+    pageNo: 1,
+    pageSize:2
+  });
+  const  tagsList  = useTagsList();
+  const [loading, setLoading] = useState(false);
 
   const [modelVisible, setmodelVisible] = useState(false); //新增（编辑）弹窗的状态
   const [currentItem, setCurrentItem] = useState({}); // 需要被编辑的数据
 
-  const [loading, setLoading] = useState(false);
+
 
   // const list :any = []
 
-    //获取文章列表
+    //获取数据列表
     const [list, setList] = useState<DataType[]>([]);
     const [count, setCount] = useState(0);
     useEffect(() => {
@@ -236,7 +237,7 @@ function DataIndex() {
         <div>
           <div style={{ flexGrow: '1', textAlign: 'right' }}>
             <Button
-              icon={<DiffOutlined />}
+              icon={<PlusOutlined />}
               type="primary"
               onClick={addItem}
               style={{ marginRight: '5px' }}
