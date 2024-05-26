@@ -9,10 +9,11 @@ export interface Tags {
 }
 
 
-export const addTag = async () => {
+export const addTag = async (data:string) => {
   return apiInstance({
       url: '/tags',
       method: 'POST',
+      data,
   });
 };
 
@@ -24,10 +25,18 @@ export const getTags = async (params?: any) => {
       params,
   })
 }
-export const editTag = async () => {
-
+export const editTag = async (data: any) => {
+  return apiInstance({
+    url: '/tags',
+    method: 'PUT',
+    data,
+});
 }
 
-export const delTag = async () => {
-
+export const delTag = async (params: { id: string }) => {
+  return apiInstance({
+    url: '/tags',
+    method: 'DELETE',
+    params,
+});
 }

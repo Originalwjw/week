@@ -3,7 +3,8 @@ import { Button, Popconfirm, Space, Spin, Table, TableProps, Tag } from 'antd'
 import React, { memo, useEffect, useState } from 'react'
 import type { FC, ReactNode } from 'react'
 import { useTagsList } from '../Data/api'
-import { getTags } from '../../services/tagsApi'
+import { delTag, getTags } from '../../services/tagsApi'
+import TagsModalSet from './Component/ModalSet'
 
 interface IProps {
   children?: ReactNode
@@ -21,7 +22,8 @@ const TagsIndex: FC<IProps> = () => {
       render:data=>{
         return(
         <Space size="middle">
-          {data.tags.map((tagId: string) => {
+          {/* {data.tags.map((tagId: string) => {
+            console.log('columns',data)
              const tag = tagsList.find((item: { id: string; }) => item.id === tagId) as TagItem | undefined;
             if (tag!=undefined) {
               return (
@@ -31,7 +33,10 @@ const TagsIndex: FC<IProps> = () => {
               );
             }
             return null;
-          })}
+          })} */}
+          <Tag key={data.id} color={data.color || 'geekblue'} style={{ marginRight: 0 }}>
+                  {data.name}
+          </Tag>
         </Space>
         )
       }
@@ -49,11 +54,11 @@ const TagsIndex: FC<IProps> = () => {
               type="primary" 
               shape="circle" 
               icon={<EditOutlined />}
-              // onClick={()=>editDataButton(data)}
+              onClick={()=>editTagsButton(data)}
               />
               <Popconfirm
                 title="确认删除?"
-                // onConfirm={()=>delDataButton(data)}
+                onConfirm={()=>delTagsButton(data)}
                 okText="确认"
                 cancelText="取消"
               >
@@ -90,15 +95,70 @@ const TagsIndex: FC<IProps> = () => {
     const getList = async () => {
       setLoading(true);
       const res = await getTags(reqTags);
-      // console.log('res.data', res);
+      console.log('res.data', res.data);
       
-      // setList(dataWithIndex);
+      setList(res.data);
       // setCount(res.data.pageInfo.total);
     }
     getList();
     setLoading(false);
   }, [reqTags])
 
+    // 表格分页
+    const onChange = (pagination: any) => {
+      setReqTags((prevState) => ({
+        ...prevState,
+        pageNo: pagination.current,
+        pageSize: pagination.pageSize,
+      }));
+    };
+    //表格选择
+    const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+    const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
+      console.log('selectedRowKeys changed: ', newSelectedRowKeys);
+      setSelectedRowKeys(newSelectedRowKeys);
+    };
+    const rowSelection = {
+      selectedRowKeys,
+      onChange: onSelectChange,
+    };
+    const hasSelected = selectedRowKeys.length > 0;
+
+  //添加数据
+  const addItem = ()=>{
+    setCurrentItem({})
+    setmodelVisible(true)
+  }
+
+  //添加(编辑)成功后，重新拉取列表（这里参数要复原）
+  const modalConfigm = async (data: any)=>{
+    setmodelVisible(false);
+    console.log("ModalData:", data);
+    // await addData(data)
+
+    setReqTags({
+      ...reqTags,
+    })
+  }
+  //编辑
+  const editTagsButton = async(data: any)=>{
+    setmodelVisible(true);
+    setCurrentItem({...data})
+    // console.log(data);
+  }
+  const setmodelVisibleWarp = ()=>{
+    setmodelVisible(false);
+  }
+  
+  //删除
+  const delTagsButton =async (data: { id: string }) => {
+    // console.log("删除", data);
+    await delTag({ id: data.id });
+      // 更新列表
+        setReqTags({
+      ...reqTags,
+    })
+  }
   return (
     <div className="main-container">
       <div>
@@ -107,13 +167,14 @@ const TagsIndex: FC<IProps> = () => {
             <Button
               icon={<PlusOutlined />}
               type="primary"
-              // onClick={addItem}
-              style={{ marginRight: '5px' }}
+              onClick={addItem}
+              style={{ marginRight: '5px' ,marginBottom:'20px'}}
             >
               添加标签
             </Button>
             <Button
               danger
+              disabled={hasSelected? false:true}
               icon={<MinusOutlined />}
               type="primary"
               // onClick={addItem}
@@ -123,33 +184,32 @@ const TagsIndex: FC<IProps> = () => {
             </Button>
             
           </div>
-          {/* {modelVisible && (
-            <ModalSet
+          {modelVisible && (
+            <TagsModalSet
               currentItem={currentItem}
               visible={modelVisible}
               onOk={modalConfigm}
               onCancel={setmodelVisibleWarp}
             />
-          )} */}
+          )}
         </div>
 
         <Spin spinning={loading}>
+        {/* <span style={{ marginLeft: 8 }}>
+          {hasSelected ? `Selected ${selectedRowKeys.length} items` : ''}
+        </span> */}
           <Table
             bordered
             columns={columns}
             dataSource={list}
-            // onChange={onChange}
+            onChange={onChange}
+            rowSelection={rowSelection}
             rowKey="id"
             size='middle'
-            // pagination={{
-            //   current: reqDate.page,
-            //   pageSize: reqDate.per_page,
-            //   total: count,
-            // }}
             pagination={{
-              // total: count,
-              // pageSize: reqDate.pageSize,
-              // onChange,
+              total: count,
+              pageSize: reqTags.pageSize,
+              onChange,
               size:"small",
               showSizeChanger:true,
               showQuickJumper:true,
