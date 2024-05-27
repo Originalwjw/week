@@ -11,11 +11,6 @@ const saveTag = data => save(data, FILE_NAME);
 async function addTag(name) {
   try {
     const tagList = read(FILE_NAME);
-    const isNameExists = tagList.some(tag => tag.name === name);
-
-    if (isNameExists) {
-      throw { status: 400, message: '标签名已存在' };
-    }
 
     const newTag = {
       id: uuidv4(),
@@ -75,13 +70,19 @@ async function editTag(id, name) {
 async function delTag(id) {
   try {
     const tagsList = read(FILE_NAME);
-    const isNameExists = tagsList.some(tag => tag.id === id);
+
+    // const isNameExists = tagsList.some(tag => tag.id === id);
+    const isNameExists = id.every(id => tagsList.some(tag => tag.id===id));
 
     if (!isNameExists) {
       throw { status: 400, message: '标签不存在' };
     }
 
-    const newTagsList = tagsList.filter(tag => tag.id !== id);
+    // const newTagsList = tagsList.filter(tag => tag.id !== id);
+    let newTagsList
+    if (id&&id[0] !== '') {
+      newTagsList = tagsList.filter(tag => id.every(id => tag.id!==id));
+    }
     saveTag(newTagsList);
   } catch (error) {
     throw error;

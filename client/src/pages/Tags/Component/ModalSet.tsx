@@ -1,5 +1,4 @@
 import { Modal, Form, Input, Spin} from "antd";
-import { addData, editData } from "../../../services/dataApi";
 import { addTag, editTag } from "../../../services/tagsApi";
 interface IProps {
   visible: boolean;
@@ -58,17 +57,12 @@ function TagsModalSet(props: IProps) {
           form={form}
           onFinish={onFinish}
         >
-          <Form.Item label="名称" name="name">
-            <Input showCount maxLength={10}  placeholder="请输入名称" />
+          <Form.Item label="标签" name="name" rules={[{ required: true}]}>
+            <Input showCount maxLength={10}  placeholder="请输入标签" />
           </Form.Item>
         </Form>
       </Spin>
     </Modal>
-
-          //<Modal title="添加记录" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} okText="确认"cancelText="取消">
-          //   <Form onFinish={ModalFinish}>
-          //   </Form>
-          // </Modal>
   );
 }
 export default TagsModalSet;

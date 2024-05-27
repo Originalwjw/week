@@ -13,7 +13,7 @@ const setLang = async ctx => {
   try {
     const whiteList = ['zh', 'en'];
     const { lang = '' } = ctx.request.body;
-    const data = read(FILE_NAME);
+    const data = read(FILE_NAME)
     if (!whiteList.includes(lang)) {
       throw { status: 400, message: ERROR_MESSAGES.INVALID_LANG };
     }

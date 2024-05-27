@@ -25,7 +25,10 @@ apiInstance.interceptors.response.use(
       message.success(responseData.msg)
     } else if (responseData.code === 201) {
       return responseData
-    } else {
+    } else if(responseData.code === 401){
+      message.error(responseData.msg)
+    }
+     else {
       message.error(responseData.msg)
     }
     return responseData

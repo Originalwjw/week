@@ -1,20 +1,38 @@
-import { Layout, Select } from "antd";
+import { Layout, Select, Switch } from "antd";
 import { Header } from "antd/es/layout/layout";
 import React, { memo, useEffect, useState } from "react";
 import type { FC, ReactNode } from "react";
 
 import styles from "./Header.module.css";
+import { SettingOutlined } from "@ant-design/icons";
+import { getLangAPI, setLangAPI } from "../../services/langApi";
 interface IProps {
   children?: ReactNode;
+  changeLanguage: (lang: string) => void;
 }
 
-const MyHeader: FC<IProps> = () => {
-  const [lang, setLang] = useState<any>("中文");
-  const handleChangeLang = async (value: string) => {};
+const MyHeader: FC<IProps> = ({ changeLanguage }) => {
+  const [language, setLanguage] = useState<any>("zh");
+
 
   useEffect(() => {
     // 从服务端获取当前语言类型
-  }, []);
+    const getLanguage = async () => {
+      const currentLang = await getLangAPI()
+      console.log('currentLang',currentLang);
+      
+      setLanguage(currentLang.data);
+    };
+
+    getLanguage();
+  }, [language]);
+  const langChange=async (checked: boolean) => {
+    const newLang = checked ? "zh" : "en";
+    setLanguage(newLang);
+    await setLangAPI({lang : newLang})
+    changeLanguage(newLang);
+    console.log(`Language switched to ${newLang}`);
+  }
 
   return (
     <Layout className="header-layout">
@@ -26,16 +44,17 @@ const MyHeader: FC<IProps> = () => {
         }}
       >
         <h2 className={styles.header}>内容管理平台</h2>
-        <Select
-          value={lang}
-          style={{ width: 100, marginRight: -40 }}
-          bordered={false}
-          options={[
-            { value: "中文", label: "中文" },
-            { value: "English", label: "English" },
-          ]}
-          onChange={handleChangeLang}
-        />
+            <div className={styles.setLang} >
+              <SettingOutlined /> 设置   
+                <div className={styles.language} >
+                  <Switch 
+                    defaultChecked 
+                    checkedChildren="中文" 
+                    unCheckedChildren="English" 
+                    onChange={langChange}/>
+                  
+                </div>
+            </div>
       </Header>
     </Layout>
   );

@@ -1,3 +1,26 @@
 .header {
   color: #fff;
 }
+.setLang {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  color: #fff;
+}
+.language{
+  display: none;
+  position: absolute;
+  top: 80%;
+  left: -30%;
+  height: 42px;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  z-index: 100;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  align-items: center; 
+}
+
+.setLang:hover .language {
+  display: flex;
+}

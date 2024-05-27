@@ -35,8 +35,11 @@ function getItem(
     label,
   } as MenuItem;
 }
+interface AppProps {
+  changeLanguage: (lang: string) => void;
+}
 
-const App: React.FC = () => {
+const App: React.FC<AppProps> = ({ changeLanguage }) => {
   const [collapsed, setCollapsed] = useState(false);
   const [currentRoute, setCurrentRoute] = useState<string[]>(["/data"]);
   const location = useLocation();
@@ -69,7 +72,7 @@ const App: React.FC = () => {
 
   return (
     <Layout className="wrap">
-      <MyHeader />
+      <MyHeader changeLanguage={changeLanguage} />
       <Layout>
         <Sider
           collapsible

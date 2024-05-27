@@ -62,6 +62,16 @@ function DataIndex() {
       width: 220,
       fixed: 'left',
       dataIndex: 'description',
+      render: (value) =>         
+        <div style={{ textAlign: 'center' }}>
+          {value.length > 30 ? (
+        <Tooltip title={value}>
+          <span>{value.slice(0, 30)}...</span>
+        </Tooltip>
+        ) : (
+          <span>{value}</span>
+        )}
+        </div>
 
     },
     {
@@ -141,7 +151,6 @@ function DataIndex() {
 
 
 
-  // const list :any = []
 
     //获取数据列表
     const [list, setList] = useState<DataType[]>([]);
@@ -157,7 +166,6 @@ function DataIndex() {
           ...item,
           index: startIdx + idx + 1, // 计算序号
         }));
-        console.log('dataWithIndex',dataWithIndex);
         
         setList(dataWithIndex);
         setCount(res.data.pageInfo.total);
@@ -180,7 +188,6 @@ function DataIndex() {
       endTime: values.date ? values.date[1].toDate().getTime() : '',
       pageNo: 1, // 重置页码
     }));
-    console.log('values',values);
   }, []);
 
   // 表格分页
@@ -201,8 +208,6 @@ function DataIndex() {
   //添加(编辑)成功后，重新拉取列表（这里参数要复原）
   const modalConfigm = async (data: any)=>{
     setmodelVisible(false);
-    console.log("ModalData:", data);
-    // await addData(data)
 
     setReqDate({
       ...reqDate,
@@ -212,7 +217,6 @@ function DataIndex() {
   const editDataButton = async(data: any)=>{
     setmodelVisible(true);
     setCurrentItem({...data})
-    // console.log(data);
   }
   const setmodelVisibleWarp = ()=>{
     setmodelVisible(false);
@@ -220,7 +224,6 @@ function DataIndex() {
   
   //删除
   const delDataButton =async (data: { id: string }) => {
-    // console.log("删除", data);
     await delData({ id: data.id });
       // 更新列表
         setReqDate({

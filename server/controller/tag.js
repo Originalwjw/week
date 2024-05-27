@@ -16,6 +16,16 @@ async function addTag(ctx) {
     if (name.length > 10) {
       throw { status: 400, message: 'name长度不能超过10个字符' };
     }
+    const tagList = await tagsService.getTags();
+    const isNameExists = tagList.data.some(tag => tag.name === name);
+    if (isNameExists) {
+      // throw { status: 401, message: '标签名已存在' };
+      ctx.body = {
+        code: 401,
+        msg: '标签名已存在'
+      };
+      return;
+    }
 
     await tagsService.addTag(name);
 
@@ -85,17 +95,25 @@ async function editTag(ctx) {
  */
 async function delTag(ctx) {
   try {
-    const { id } = ctx.request.query;
-
+    // 获取 tags 参数
+    let id = ctx.request.query['id'] || ctx.request.query['id[]'];
+    // 如果 tags 是字符串，则将其转换为数组
+    if (typeof id === 'string') {
+      id = [id];
+    }
     if (!id) {
       throw { status: 400, message: 'id不能为空' };
     }
 
     const { data } = await dataService.getData();
-    const isThisIdWasUsed = data.some(item => item.tags.includes(id));
+    const isThisIdWasUsed = id.every(id => data.some(item => item.tags.includes(id)));
 
     if (isThisIdWasUsed) {
-      throw { status: 400, message: '该标签已被使用，不能删除' };
+      ctx.body = {
+        code: 401,
+        msg: '该标签已被使用，不能删除'
+      };
+      return;
     }
 
     const result = await tagsService.delTag(id);

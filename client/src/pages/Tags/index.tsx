@@ -123,17 +123,26 @@ const TagsIndex: FC<IProps> = () => {
       onChange: onSelectChange,
     };
     const hasSelected = selectedRowKeys.length > 0;
+    console.log('selectedRowKeys',selectedRowKeys);
+    
 
   //添加数据
   const addItem = ()=>{
     setCurrentItem({})
     setmodelVisible(true)
   }
+  //删除选中
+  const delSelectedItem= async (selectedRowKeys: string[] )=>{
+    await delTag({id: selectedRowKeys})
+    setReqTags({
+      ...reqTags,
+    })
+  }
 
   //添加(编辑)成功后，重新拉取列表（这里参数要复原）
-  const modalConfigm = async (data: any)=>{
+  const modalConfigm = async (tags: any)=>{
     setmodelVisible(false);
-    console.log("ModalData:", data);
+    console.log("ModalData:", tags);
     // await addData(data)
 
     setReqTags({
@@ -141,9 +150,9 @@ const TagsIndex: FC<IProps> = () => {
     })
   }
   //编辑
-  const editTagsButton = async(data: any)=>{
+  const editTagsButton = async(tags: any)=>{
     setmodelVisible(true);
-    setCurrentItem({...data})
+    setCurrentItem({...tags})
     // console.log(data);
   }
   const setmodelVisibleWarp = ()=>{
@@ -151,9 +160,9 @@ const TagsIndex: FC<IProps> = () => {
   }
   
   //删除
-  const delTagsButton =async (data: { id: string }) => {
+  const delTagsButton =async (tags: { id: string[] }) => {
     // console.log("删除", data);
-    await delTag({ id: data.id });
+    await delTag( {id: tags.id} );
       // 更新列表
         setReqTags({
       ...reqTags,
@@ -177,7 +186,7 @@ const TagsIndex: FC<IProps> = () => {
               disabled={hasSelected? false:true}
               icon={<MinusOutlined />}
               type="primary"
-              // onClick={addItem}
+              onClick={()=>delSelectedItem(selectedRowKeys as string[])}
               style={{ marginRight: '5px' }}
             >
               确定删除

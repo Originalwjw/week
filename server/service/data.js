@@ -27,7 +27,6 @@ async function addData(newData) {
  */
 /* eslint-disable */  
 async function getData(pageNo, pageSize, name, tags, startTime, endTime) {
-  console.log('getData',pageNo, pageSize, name, tags, startTime, endTime);
   try {
     // 读取data.json文件中的数据
     const dataList = read(FILE_NAME);
@@ -38,7 +37,6 @@ async function getData(pageNo, pageSize, name, tags, startTime, endTime) {
     }
     // 根据标签进行过滤
     if (tags&&tags[0] !== '') {
-      console.log('tags111');
       filteredData = filteredData.filter(item => tags.every(tag => item.tags.includes(tag)));
     }
     // 根据时间范围过滤

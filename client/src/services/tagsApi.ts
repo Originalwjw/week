@@ -33,7 +33,7 @@ export const editTag = async (data: any) => {
 });
 }
 
-export const delTag = async (params: { id: string }) => {
+export const delTag = async (params: { id: string[] }) => {
   return apiInstance({
     url: '/tags',
     method: 'DELETE',

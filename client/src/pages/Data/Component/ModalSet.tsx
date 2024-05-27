@@ -64,7 +64,7 @@ function ModalSet(props: IProps) {
           <Form.Item label="名称" name="name" rules={[{ required: true, message: '请输入名称' }]}>
             <Input showCount maxLength={20} placeholder="请输入名称" />
           </Form.Item>
-          <Form.Item label="描述" name="description">
+          <Form.Item label="描述" name="description" rules={[{ required: true, message: '请输入描述' }]}>
             <TextArea showCount maxLength={50} placeholder="请输入描述" />
           </Form.Item>
           <Form.Item label="标签" name="tags">
