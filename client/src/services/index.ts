@@ -1,5 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios'
 import { message } from 'antd'
+import { LangContext } from '@/index';
+import { useContext } from 'react';
 
 const apiInstance: AxiosInstance = axios.create({
   baseURL: '/api', // 设置你API地址根路径
@@ -35,7 +37,8 @@ apiInstance.interceptors.response.use(
   },
   (error) => {
     // 处理请求错误
-    message.error('请求出错，请稍后重试')
+    const { lang } = useContext(LangContext);
+    message.error(lang.other_error)
     return Promise.reject(error)
   }
 )

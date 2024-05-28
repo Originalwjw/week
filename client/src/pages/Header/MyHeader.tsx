@@ -1,18 +1,18 @@
-import { Layout, Select, Switch } from "antd";
+import { Layout, Switch } from "antd";
 import { Header } from "antd/es/layout/layout";
-import React, { memo, useContext, useEffect, useState } from "react";
+import  {  useContext, useEffect, useState } from "react";
 import type { FC, ReactNode } from "react";
 
 import styles from "./Header.module.css";
 import { SettingOutlined } from "@ant-design/icons";
-import { getLangAPI, setLangAPI } from "../../services/langApi";
-import { LangContext } from "../../index"; // 引入LangContext
+import { getLangAPI, setLangAPI } from "@/services/langApi";
+import { LangContext } from "@/index"; 
 interface IProps {
   children?: ReactNode;
 }
 
 const MyHeader: FC<IProps> = () => {
-  const { lang, changeLanguage } = useContext(LangContext); // 使用LangContext
+  const { lang, changeLanguage } = useContext(LangContext); 
   const [language, setLanguage] = useState<any>("zh");
 
 

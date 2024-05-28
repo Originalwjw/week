@@ -1,11 +1,10 @@
 import { DeleteOutlined, EditOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, Popconfirm, Space, Spin, Table, TableProps, Tag } from 'antd'
-import React, { memo, useContext, useEffect, useState } from 'react'
+import React, {  useContext, useEffect,  useState } from 'react'
 import type { FC, ReactNode } from 'react'
-import { useTagsList } from '../Data/api'
-import { delTag, getTags } from '../../services/tagsApi'
+import { delTag, getTags } from '@/services/tagsApi'
 import TagsModalSet from './Component/ModalSet'
-import { LangContext } from "../../index"; // 引入LangContext
+import { LangContext } from "@/index";
 
 interface IProps {
   children?: ReactNode
@@ -17,7 +16,9 @@ interface TagItem {
 }
 const TagsIndex: FC<IProps> = () => {
   const { lang } = useContext(LangContext);
-  const columns:TableProps<IProps>['columns']=[
+  //useMemo根据lange变化来重新渲染
+  // const columns = useMemo<TableProps<IProps>['columns']> (()=>[],[lang])
+  const columns : TableProps<IProps>['columns'] =[
     {
       title: lang.tags,
       width: 330,
@@ -36,7 +37,6 @@ const TagsIndex: FC<IProps> = () => {
       width: 220,
       align: 'center',
       fixed: 'right',
-      // dataIndex: 'operator', // for test -1
       render: data => {
         return (
           <Space size="middle">
@@ -72,14 +72,13 @@ const TagsIndex: FC<IProps> = () => {
     pageNo: 1,
     pageSize:10
   });
-  const  tagsList  = useTagsList();
   const [loading, setLoading] = useState(false);
   const [modelVisible, setmodelVisible] = useState(false); //新增（编辑）弹窗的状态
   const [currentItem, setCurrentItem] = useState({}); // 需要被编辑的数据
 
   //获取数据列表
   const [list, setList] = useState<IProps[]>([]);
-  const [count, setCount] = useState(0);
+  const [count] = useState(0);
 
   useEffect(() => {
     const getList = async () => {
@@ -130,7 +129,7 @@ const TagsIndex: FC<IProps> = () => {
   }
 
   //添加(编辑)成功后，重新拉取列表（这里参数要复原）
-  const modalConfigm = async (tags: any)=>{
+  const modalConfigm = async (tags: string)=>{
     setmodelVisible(false);
     console.log("ModalData:", tags);
     // await addData(data)
@@ -140,7 +139,7 @@ const TagsIndex: FC<IProps> = () => {
     })
   }
   //编辑
-  const editTagsButton = async(tags: any)=>{
+  const editTagsButton = async(tags: TagItem)=>{
     setmodelVisible(true);
     setCurrentItem({...tags})
     // console.log(data);

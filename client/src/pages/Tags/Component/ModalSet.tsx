@@ -1,15 +1,17 @@
 import { Modal, Form, Input, Spin} from "antd";
-import { addTag, editTag } from "../../../services/tagsApi";
+import { addTag, editTag } from "@/services/tagsApi";
+import { memo, useContext } from "react";
+import { LangContext } from '@/index';
 interface IProps {
   visible: boolean;
   onCancel: () => void;
   onOk: (val: any) => void;
   currentItem?: any;
 }
-function TagsModalSet(props: IProps) {
+const TagsModalSet = memo((props: IProps)=> {
   const { onCancel, onOk, visible, currentItem: initialValues = {} } = props;
-  console.log('props',props);
-  
+  // console.log('props',props);
+  const { lang } = useContext(LangContext);
   const [form] = Form.useForm();
   const layout = {
     labelCol: { span: 5 },
@@ -40,7 +42,7 @@ function TagsModalSet(props: IProps) {
   };
   return (
     <Modal
-      title={isAddStatus ? `新增标签` : "编辑标签"}
+      title={isAddStatus ? lang.addTags : lang.editTags}
       open={visible}
       onCancel={onCancel} 
       onOk={modalSetOk} 
@@ -57,12 +59,12 @@ function TagsModalSet(props: IProps) {
           form={form}
           onFinish={onFinish}
         >
-          <Form.Item label="标签" name="name" rules={[{ required: true}]}>
-            <Input showCount maxLength={10}  placeholder="请输入标签" />
+          <Form.Item label={lang.tags} name="name" rules={[{ required: true}]}>
+            <Input showCount maxLength={10}  placeholder={lang.input_tag_name} />
           </Form.Item>
         </Form>
       </Spin>
     </Modal>
   );
-}
+})
 export default TagsModalSet;

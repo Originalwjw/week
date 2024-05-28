@@ -1,15 +1,16 @@
 // app.tsx
 import React, { useCallback, useEffect, useState, useContext } from "react";
-import { DatabaseOutlined, SmileOutlined, TagsOutlined } from "@ant-design/icons";
+import { DatabaseOutlined, ExperimentOutlined, SmileOutlined, TagsOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Layout, Menu } from "antd";
 import MyHeader from "./pages/Header/MyHeader";
 import DataIndex from "./pages/Data";
 import TagsIndex from "./pages/Tags";
 import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
-import { LangContext } from "./index"; // 引入LangContext
+import { LangContext } from "./index"; 
+import ExperienceIndex from "./pages/Experience";
 
-const { Content, Footer, Sider } = Layout;
+const { Content,  Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
 
@@ -23,13 +24,14 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
 }
 
 const App: React.FC = () => {
-  const { lang } = useContext(LangContext); // 使用LangContext
+  const { lang } = useContext(LangContext);
   const [collapsed, setCollapsed] = useState(false);
   const [currentRoute, setCurrentRoute] = useState<string[]>(["/data"]);
   const location = useLocation();
   const navigate = useNavigate();
 
   const items: MenuItem[] = [
+    getItem(lang.learning_experience, "/experience", <ExperimentOutlined style={{ fontSize: "16px" }} />),
     getItem(lang.data_manage, "/data", <DatabaseOutlined style={{ fontSize: "16px" }} />),
     getItem(lang.tags_manage, "/tags", <TagsOutlined style={{ fontSize: "16px" }} />),
   ];
@@ -67,6 +69,7 @@ const App: React.FC = () => {
           <Content>
             <div style={{ padding: 24, minHeight: 360 }}>
               <Routes>
+                <Route path="/experience" element={<ExperienceIndex />} />
                 <Route path="/data" element={<DataIndex />} />
                 <Route path="/tags" element={<TagsIndex />} />
                 <Route path="/" element={<Navigate to="/data" />} />

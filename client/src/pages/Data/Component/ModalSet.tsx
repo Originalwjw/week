@@ -1,7 +1,9 @@
 import { Modal, Form, Input, Spin, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { useTagsList } from "../api";
-import { addData, editData } from "../../../services/dataApi";
+import { useTagsList } from "@/pages/Data/api";
+import { addData, editData } from "@/services/dataApi";
+import { LangContext } from '@/index';
+import { memo, useContext } from "react";
 const { Option } = Select
 interface IProps {
   visible: boolean;
@@ -9,12 +11,13 @@ interface IProps {
   onOk: (val: any) => void;
   currentItem?: any;
 }
-function ModalSet(props: IProps) {
+const  ModalSet = memo((props: IProps)=> {
   const { onCancel, onOk, visible, currentItem: initialValues = {} } = props;
   console.log('props', props);
 
   const [form] = Form.useForm();
   const tagsList = useTagsList();
+  const { lang } = useContext(LangContext);
   const layout = {
     labelCol: { span: 5 },
     wrapperCol: { span: 19 },
@@ -44,7 +47,7 @@ function ModalSet(props: IProps) {
   };
   return (
     <Modal
-      title={isAddStatus ? `新增记录` : "编辑记录"}
+      title={isAddStatus ? lang.addRecord : lang.editRecord}
       open={visible}
       onCancel={onCancel}
       onOk={modalSetOk}
@@ -61,16 +64,16 @@ function ModalSet(props: IProps) {
           form={form}
           onFinish={onFinish}
         >
-          <Form.Item label="名称" name="name" rules={[{ required: true, message: '请输入名称' }]}>
-            <Input showCount maxLength={20} placeholder="请输入名称" />
+          <Form.Item label={lang.name} name="name" rules={[{ required: true, message: '请输入名称' }]}>
+            <Input showCount maxLength={20} placeholder={lang.input_name} />
           </Form.Item>
-          <Form.Item label="描述" name="description" rules={[{ required: true, message: '请输入描述' }]}>
-            <TextArea showCount maxLength={50} placeholder="请输入描述" />
+          <Form.Item label={lang.description} name="description" rules={[{ required: true, message: '请输入描述' }]}>
+            <TextArea showCount maxLength={50} placeholder={lang.input_description} />
           </Form.Item>
-          <Form.Item label="标签" name="tags">
+          <Form.Item label={lang.tags} name="tags">
             <Select
               mode="tags"
-              placeholder="请选择标签"
+              placeholder={lang.input_tag_name}
             >
               {tagsList.map((tag: { id: string; name: string; }) =>
                 <Option key={tag.id}>{tag.name}</Option>
@@ -82,11 +85,6 @@ function ModalSet(props: IProps) {
       </Spin>
     </Modal>
 
-    //<Modal title="添加记录" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} okText="确认"cancelText="取消">
-    //   <Form onFinish={ModalFinish}>
-
-    //   </Form>
-    // </Modal>
   );
-}
+})
 export default ModalSet;

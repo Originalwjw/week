@@ -16,10 +16,13 @@
     "axios": "^1.4.0",
     "chroma-js": "^2.4.2",
     "css-loader": "^6.8.1",
+    "customize-cra": "^1.0.0",
     "dayjs": "^1.11.9",
     "http-proxy-middleware": "^2.0.1",
     "react": "^18.2.0",
+    "react-app-rewired": "^2.2.1",
     "react-dom": "^18.2.0",
+    "react-markdown": "^9.0.1",
     "react-redux": "^8.1.2",
     "react-router-dom": "^6.14.2",
     "react-scripts": "5.0.1",
@@ -29,9 +32,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -54,6 +57,7 @@
   },
   "devDependencies": {
     "@ant-design/icons": "^5.3.6",
+    "@craco/craco": "^7.1.0",
     "@types/chroma-js": "^2.4.0"
   }
 }

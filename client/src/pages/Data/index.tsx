@@ -2,29 +2,22 @@ import  { useEffect, useState, useCallback, useContext } from 'react';
 import {
   Button,
   Table,
-  message,
   Tooltip,
   Spin,
   Popconfirm,
   Tag,
   Space,
-  Form,
-  Input,
-  Modal,
-  Select,
 } from 'antd';
 
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import type { TableProps } from 'antd';
 import './index.css';
-
 import ModalSet from './Component/ModalSet';
 import SearchBar from './Component/SearchBar';
-import { addData, delData, getData } from '../../services/dataApi';
-import TextArea from 'antd/es/input/TextArea';
+import {  delData, getData } from '@/services/dataApi';
 import dayjs from 'dayjs';
 import { useTagsList } from './api';
-import { LangContext } from '../../index';
+import { LangContext } from '@/index';
 
 interface DataType {
   index: number;
@@ -43,14 +36,13 @@ interface TagItem {
 
 function DataIndex() {
   const { lang } = useContext(LangContext);
-  const columns : TableProps<DataType>['columns'] = [
+  const columns : TableProps<DataType>['columns'] =[
     {
       title: lang.id,
       key: 'index',
       width: 80,
       fixed: 'left',
       dataIndex: 'index',
-      // render: (_, __, index) => index + 1,
     },
     {
       title: lang.name,
@@ -63,8 +55,9 @@ function DataIndex() {
       width: 220,
       fixed: 'left',
       dataIndex: 'description',
+      //, whiteSpace: 'nowrap'
       render: (value) =>         
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center' }}> 
           {value.length > 30 ? (
         <Tooltip title={value}>
           <span>{value.slice(0, 30)}...</span>
@@ -76,7 +69,7 @@ function DataIndex() {
 
     },
     {
-      title: lang.create_time,
+      title: lang.add_time,
       width: 220,
       fixed: 'left',
       dataIndex: 'time',
@@ -90,7 +83,7 @@ function DataIndex() {
         <Space size="middle">
           {data.tags.map((tagId: string) => {
              const tag = tagsList.find((item: { id: string; }) => item.id === tagId) as TagItem | undefined;
-            if (tag!=undefined) {
+            if (tag!==undefined) {
               return (
                 <Tag key={tag.id} color={tag.color || 'geekblue'} style={{ marginRight: 0 }}>
                   {tag.name}
@@ -108,7 +101,6 @@ function DataIndex() {
       width: 220,
       align: 'center',
       fixed: 'right',
-      // dataIndex: 'operator', // for test -1
       render: data => {
         return (
           <Space size="middle">
@@ -134,7 +126,7 @@ function DataIndex() {
         )
       }
     },
-  ];
+  ]
 
   const [reqDate, setReqDate] = useState({
     name: '',
@@ -244,7 +236,7 @@ function DataIndex() {
               icon={<PlusOutlined />}
               type="primary"
               onClick={addItem}
-              style={{ marginRight: '5px' }}
+              style={{ marginRight:25, marginBottom:20}}
             >
               {lang.addData}
             </Button>
