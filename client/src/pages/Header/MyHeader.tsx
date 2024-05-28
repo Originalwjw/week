@@ -1,17 +1,18 @@
 import { Layout, Select, Switch } from "antd";
 import { Header } from "antd/es/layout/layout";
-import React, { memo, useEffect, useState } from "react";
+import React, { memo, useContext, useEffect, useState } from "react";
 import type { FC, ReactNode } from "react";
 
 import styles from "./Header.module.css";
 import { SettingOutlined } from "@ant-design/icons";
 import { getLangAPI, setLangAPI } from "../../services/langApi";
+import { LangContext } from "../../index"; // 引入LangContext
 interface IProps {
   children?: ReactNode;
-  changeLanguage: (lang: string) => void;
 }
 
-const MyHeader: FC<IProps> = ({ changeLanguage }) => {
+const MyHeader: FC<IProps> = () => {
+  const { lang, changeLanguage } = useContext(LangContext); // 使用LangContext
   const [language, setLanguage] = useState<any>("zh");
 
 
@@ -19,8 +20,7 @@ const MyHeader: FC<IProps> = ({ changeLanguage }) => {
     // 从服务端获取当前语言类型
     const getLanguage = async () => {
       const currentLang = await getLangAPI()
-      console.log('currentLang',currentLang);
-      
+      // console.log('currentLang',currentLang);
       setLanguage(currentLang.data);
     };
 
@@ -31,7 +31,6 @@ const MyHeader: FC<IProps> = ({ changeLanguage }) => {
     setLanguage(newLang);
     await setLangAPI({lang : newLang})
     changeLanguage(newLang);
-    console.log(`Language switched to ${newLang}`);
   }
 
   return (
@@ -43,9 +42,9 @@ const MyHeader: FC<IProps> = ({ changeLanguage }) => {
           justifyContent: "space-between",
         }}
       >
-        <h2 className={styles.header}>内容管理平台</h2>
+        <h2 className={styles.header}>{lang.title}</h2>
             <div className={styles.setLang} >
-              <SettingOutlined /> 设置   
+              <SettingOutlined /> {lang.setting}   
                 <div className={styles.language} >
                   <Switch 
                     defaultChecked 
@@ -61,3 +60,4 @@ const MyHeader: FC<IProps> = ({ changeLanguage }) => {
 };
 
 export default MyHeader;
+

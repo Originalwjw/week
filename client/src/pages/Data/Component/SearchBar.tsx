@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Form, Button, Input, Select, DatePicker } from "antd";
 import { useTagsList } from "../api";
 import { RedoOutlined, SearchOutlined } from "@ant-design/icons";
+import { LangContext } from '../../../index';
 const { Option } = Select
 const { RangePicker } = DatePicker
 
@@ -9,6 +10,7 @@ interface SearchBarProps {
   onSearchRuleChange: (values: any) => void;
 }
 const SearchBar: React.FC<SearchBarProps> = (props) => {
+  const { lang } = useContext(LangContext);
   const [form] = Form.useForm();
   const { onSearchRuleChange } = props;
   const  tagsList  = useTagsList();
@@ -49,19 +51,19 @@ const SearchBar: React.FC<SearchBarProps> = (props) => {
           <Input placeholder="请输入搜索名称" maxLength={20} />
         </Form.Item> */}
           <Form.Item 
-            label="名称" 
+            label={lang.name} 
             name="name" 
             style={{ marginRight:20,minWidth: 120}}
             rules={[{ required: true}]}>
-            <Input showCount maxLength={20}  placeholder="请输入名称" />
+            <Input showCount maxLength={20}  placeholder={lang.input_name} />
           </Form.Item>
           <Form.Item 
-            label="标签" 
+            label={lang.tags}
             name="tags"
             style={{ marginRight:30}}>
             <Select
               mode="tags"
-              placeholder="请输入标签"
+              placeholder={lang.input_tag_name}
               // defaultValue="lucy"
               style={{ minWidth: 120 }}
             >
@@ -71,7 +73,7 @@ const SearchBar: React.FC<SearchBarProps> = (props) => {
             </Select>
           </Form.Item>
           <Form.Item 
-            label="添加时间"
+            label={lang.create_time}
             name="date"
           >
             {/* 传入locale属性 控制中文显示 */}
@@ -80,10 +82,10 @@ const SearchBar: React.FC<SearchBarProps> = (props) => {
 
         <div style={{ flexGrow: "1", textAlign: "right" }}>
           <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}>
-            搜索
+            {lang.search}
           </Button>
           <Button icon={<RedoOutlined />} style={{ marginLeft: 8 }} onClick={handleReset}>
-            重置
+            {lang.reset}
           </Button>
         </div>
       </Form>

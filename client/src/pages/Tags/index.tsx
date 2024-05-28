@@ -1,10 +1,11 @@
 import { DeleteOutlined, EditOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, Popconfirm, Space, Spin, Table, TableProps, Tag } from 'antd'
-import React, { memo, useEffect, useState } from 'react'
+import React, { memo, useContext, useEffect, useState } from 'react'
 import type { FC, ReactNode } from 'react'
 import { useTagsList } from '../Data/api'
 import { delTag, getTags } from '../../services/tagsApi'
 import TagsModalSet from './Component/ModalSet'
+import { LangContext } from "../../index"; // 引入LangContext
 
 interface IProps {
   children?: ReactNode
@@ -15,25 +16,14 @@ interface TagItem {
   color?: string;
 }
 const TagsIndex: FC<IProps> = () => {
+  const { lang } = useContext(LangContext);
   const columns:TableProps<IProps>['columns']=[
     {
-      title: '标签',
+      title: lang.tags,
       width: 330,
       render:data=>{
         return(
         <Space size="middle">
-          {/* {data.tags.map((tagId: string) => {
-            console.log('columns',data)
-             const tag = tagsList.find((item: { id: string; }) => item.id === tagId) as TagItem | undefined;
-            if (tag!=undefined) {
-              return (
-                <Tag key={tag.id} color={tag.color || 'geekblue'} style={{ marginRight: 0 }}>
-                  {tag.name}
-                </Tag>
-              );
-            }
-            return null;
-          })} */}
           <Tag key={data.id} color={data.color || 'geekblue'} style={{ marginRight: 0 }}>
                   {data.name}
           </Tag>
@@ -42,7 +32,7 @@ const TagsIndex: FC<IProps> = () => {
       }
     },
     {
-      title: '操作',
+      title: lang.action,
       width: 220,
       align: 'center',
       fixed: 'right',
@@ -57,10 +47,10 @@ const TagsIndex: FC<IProps> = () => {
               onClick={()=>editTagsButton(data)}
               />
               <Popconfirm
-                title="确认删除?"
+                title={lang.confirm_delete}
                 onConfirm={()=>delTagsButton(data)}
-                okText="确认"
-                cancelText="取消"
+                okText={lang.ok}
+                cancelText={lang.cancel}
               >
               <Button
                 type="primary"
@@ -179,7 +169,7 @@ const TagsIndex: FC<IProps> = () => {
               onClick={addItem}
               style={{ marginRight: '5px' ,marginBottom:'20px'}}
             >
-              添加标签
+              {lang.addTags}
             </Button>
             <Button
               danger
@@ -189,7 +179,7 @@ const TagsIndex: FC<IProps> = () => {
               onClick={()=>delSelectedItem(selectedRowKeys as string[])}
               style={{ marginRight: '5px' }}
             >
-              确定删除
+              {lang.confirm_delete}
             </Button>
             
           </div>
@@ -222,7 +212,7 @@ const TagsIndex: FC<IProps> = () => {
               size:"small",
               showSizeChanger:true,
               showQuickJumper:true,
-              showTotal:(total) => `共 ${total} 条数据`,
+              showTotal:(total) => `${lang.pagination_first} ${total} ${lang.pagination_end}`,
           }}
           />
         </Spin>

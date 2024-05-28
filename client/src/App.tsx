@@ -1,33 +1,19 @@
-import React, { useCallback, useEffect, useState } from "react";
-import {
-  DatabaseOutlined,
-  SmileOutlined,
-  TagsOutlined,
-} from "@ant-design/icons";
+// app.tsx
+import React, { useCallback, useEffect, useState, useContext } from "react";
+import { DatabaseOutlined, SmileOutlined, TagsOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
-import { Layout, Menu, theme } from "antd";
+import { Layout, Menu } from "antd";
 import MyHeader from "./pages/Header/MyHeader";
 import DataIndex from "./pages/Data";
 import TagsIndex from "./pages/Tags";
-
-import {
-  Navigate,
-  Route,
-  Routes,
-  useLocation,
-  useNavigate,
-} from "react-router-dom";
+import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
+import { LangContext } from "./index"; // 引入LangContext
 
 const { Content, Footer, Sider } = Layout;
 
 type MenuItem = Required<MenuProps>["items"][number];
 
-function getItem(
-  label: React.ReactNode,
-  key: React.Key,
-  icon?: React.ReactNode,
-  children?: MenuItem[]
-): MenuItem {
+function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode, children?: MenuItem[]): MenuItem {
   return {
     key,
     icon,
@@ -35,26 +21,19 @@ function getItem(
     label,
   } as MenuItem;
 }
-interface AppProps {
-  changeLanguage: (lang: string) => void;
-}
 
-const App: React.FC<AppProps> = ({ changeLanguage }) => {
+const App: React.FC = () => {
+  const { lang } = useContext(LangContext); // 使用LangContext
   const [collapsed, setCollapsed] = useState(false);
   const [currentRoute, setCurrentRoute] = useState<string[]>(["/data"]);
   const location = useLocation();
   const navigate = useNavigate();
 
   const items: MenuItem[] = [
-    getItem(
-      "数据管理",
-      "/data",
-      <DatabaseOutlined style={{ fontSize: "16px" }} />
-    ),
-    getItem("标签管理", "/tags", <TagsOutlined style={{ fontSize: "16px" }} />),
+    getItem(lang.data_manage, "/data", <DatabaseOutlined style={{ fontSize: "16px" }} />),
+    getItem(lang.tags_manage, "/tags", <TagsOutlined style={{ fontSize: "16px" }} />),
   ];
 
-  // 定义路由跳转函数
   const onChangeRoute = useCallback(
     (e: any) => {
       const path = location.pathname;
@@ -65,30 +44,22 @@ const App: React.FC<AppProps> = ({ changeLanguage }) => {
   );
 
   useEffect(() => {
-    // 页面刷新时更新currentRoute
     const path = location.pathname;
     setCurrentRoute([path]);
   }, [location.pathname]);
 
   return (
     <Layout className="wrap">
-      <MyHeader changeLanguage={changeLanguage} />
+      <MyHeader />
       <Layout>
-        <Sider
-          collapsible
-          collapsed={collapsed}
-          onCollapse={(value) => setCollapsed(value)}
-        >
+        <Sider collapsible collapsed={collapsed} onCollapse={(value) => setCollapsed(value)}>
           <div className="demo-logo-vertical" />
           <Menu
-            style={{
-              marginTop: "10px",
-              background: "transparent",
-              color: "white",
-            }}
+            style={{ marginTop: "10px", background: "transparent", color: "white" }}
             selectedKeys={currentRoute}
             mode="inline"
             items={items}
+            theme="dark"
             onClick={onChangeRoute}
           />
         </Sider>
@@ -96,12 +67,10 @@ const App: React.FC<AppProps> = ({ changeLanguage }) => {
           <Content>
             <div style={{ padding: 24, minHeight: 360 }}>
               <Routes>
-                {/* 设置路由规则和对应的组件 */}
                 <Route path="/data" element={<DataIndex />} />
                 <Route path="/tags" element={<TagsIndex />} />
                 <Route path="/" element={<Navigate to="/data" />} />
                 <Route path="/index.html" element={<Navigate to="/data" />} />
-                {/* 如果没有匹配的路由，显示一个默认页面 */}
                 <Route
                   path="*"
                   element={

@@ -1,4 +1,4 @@
-import  { useEffect, useState, useCallback } from 'react';
+import  { useEffect, useState, useCallback, useContext } from 'react';
 import {
   Button,
   Table,
@@ -24,6 +24,7 @@ import { addData, delData, getData } from '../../services/dataApi';
 import TextArea from 'antd/es/input/TextArea';
 import dayjs from 'dayjs';
 import { useTagsList } from './api';
+import { LangContext } from '../../index';
 
 interface DataType {
   index: number;
@@ -41,24 +42,24 @@ interface TagItem {
 }
 
 function DataIndex() {
-
+  const { lang } = useContext(LangContext);
   const columns : TableProps<DataType>['columns'] = [
     {
-      title: '编号',
+      title: lang.id,
       key: 'index',
-      width: 60,
+      width: 80,
       fixed: 'left',
       dataIndex: 'index',
       // render: (_, __, index) => index + 1,
     },
     {
-      title: '标题',
+      title: lang.name,
       width: 160,
       fixed: 'left',
       dataIndex: 'name',
     },
     {
-      title: '描述',
+      title: lang.description,
       width: 220,
       fixed: 'left',
       dataIndex: 'description',
@@ -75,14 +76,14 @@ function DataIndex() {
 
     },
     {
-      title: '添加时间',
+      title: lang.create_time,
       width: 220,
       fixed: 'left',
       dataIndex: 'time',
       render: (time: number) => dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
-      title: '标签',
+      title: lang.tags,
       width: 330,
       render:data=>{
         return(
@@ -103,7 +104,7 @@ function DataIndex() {
       }
     },
     {
-      title: '操作',
+      title: lang.action,
       width: 220,
       align: 'center',
       fixed: 'right',
@@ -117,10 +118,10 @@ function DataIndex() {
               icon={<EditOutlined />}
               onClick={()=>editDataButton(data)}/>
               <Popconfirm
-                title="确认删除?"
+                title={lang.confirm_delete}
                 onConfirm={()=>delDataButton(data)}
-                okText="确认"
-                cancelText="取消"
+                okText={lang.ok}
+                cancelText={lang.cancel}
               >
               <Button
                 type="primary"
@@ -141,7 +142,7 @@ function DataIndex() {
     startTime: '',
     endTime: '',
     pageNo: 1,
-    pageSize:2
+    pageSize:10
   });
   const  tagsList  = useTagsList();
   const [loading, setLoading] = useState(false);
@@ -245,7 +246,7 @@ function DataIndex() {
               onClick={addItem}
               style={{ marginRight: '5px' }}
             >
-              新建
+              {lang.addData}
             </Button>
             
           </div>
@@ -279,7 +280,7 @@ function DataIndex() {
               size:"small",
               showSizeChanger:true,
               showQuickJumper:true,
-              showTotal:(total) => `共 ${total} 条数据`,
+              showTotal:(total) => `${lang.pagination_first} ${total} ${lang.pagination_end}`,
           }}
           />
         </Spin>
