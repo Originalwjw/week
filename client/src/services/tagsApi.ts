@@ -9,7 +9,7 @@ export interface Tags {
 }
 
 
-export const addTag = async (data:string) => {
+export const addTag = async (data: {name:string,color:string}) => {
   return apiInstance({
       url: '/tags',
       method: 'POST',

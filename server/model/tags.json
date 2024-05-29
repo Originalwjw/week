@@ -17,15 +17,18 @@
   },
   {
     "id": "bce9b7f6-6baa-458d-b0c9-58a8f888e922",
-    "name": "test4"
+    "name": "test4",
+    "color": "purple"
   },
   {
     "id": "8549da1c-d340-4f51-b74f-7c9a8035c1dc",
-    "name": "test2"
+    "name": "test2",
+    "color": "geekblue"
   },
   {
     "id": "db32a314-3619-4b82-ac79-79b1a1393df9",
-    "name": "test1"
+    "name": "test1",
+    "color": "green"
   },
   {
     "id": "04dd0247-5823-4c4d-855c-eef27d3a97ca",
@@ -41,11 +44,13 @@
   },
   {
     "id": "2441447b-0a7d-4e90-a852-9ce3933fc8e6",
-    "name": "黄色"
+    "name": "黄色",
+    "color": "orange"
   },
   {
     "id": "b14b9a85-6400-4262-b3ac-2e50eb963e00",
-    "name": "紫色"
+    "name": "紫色",
+    "color": "magenta"
   },
   {
     "id": "411012ad-9999-415c-bac7-699b6fe8ad2b",
@@ -54,18 +59,22 @@
   },
   {
     "id": "29a375ee-96af-45a3-b96a-116c81004ecb",
-    "name": "343434"
+    "name": "343434",
+    "color": "volcano"
   },
   {
     "id": "ab649268-3f52-4bd4-adc6-4c67a1d8b697",
-    "name": "1"
+    "name": "1",
+    "color": "lime"
   },
   {
     "id": "2b26af49-af52-4edc-a62a-d18693586879",
-    "name": "3"
+    "name": "3",
+    "color": "cyan"
   },
   {
     "id": "a0766f1e-b951-4b67-a024-828fd5a1ec06",
-    "name": "4"
+    "name": "4",
+    "color": "red"
   }
 ]

@@ -7,7 +7,7 @@ const dataService = require('../service/data');
  */
 async function addTag(ctx) {
   try {
-    const { name } = ctx.request.body;
+    const { name, color } = ctx.request.body;
 
     if (!name) {
       throw { status: 400, message: 'name不能为空' };
@@ -27,7 +27,7 @@ async function addTag(ctx) {
       return;
     }
 
-    await tagsService.addTag(name);
+    await tagsService.addTag(name, color);
 
     const responseData = {
       code: 201,
@@ -66,7 +66,7 @@ async function getTags(ctx) {
  */
 async function editTag(ctx) {
   try {
-    const { id, name } = ctx.request.body;
+    const { id, name, color } = ctx.request.body;
 
     if (!id) {
       throw { status: 400, message: 'id不能为空' };
@@ -76,7 +76,7 @@ async function editTag(ctx) {
       throw { status: 400, message: 'name不能为空' };
     }
 
-    await tagsService.editTag(id, name);
+    await tagsService.editTag(id, name, color);
 
     const responseData = {
       code: 201,

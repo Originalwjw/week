@@ -1,7 +1,8 @@
-import { Modal, Form, Input, Spin} from "antd";
+import { Modal, Form, Input, Spin, Select} from "antd";
 import { addTag, editTag } from "@/services/tagsApi";
 import { memo, useContext } from "react";
 import { LangContext } from '@/index';
+const { Option } = Select
 interface IProps {
   visible: boolean;
   onCancel: () => void;
@@ -40,6 +41,55 @@ const TagsModalSet = memo((props: IProps)=> {
 
     onOk(values);
   };
+
+    const data = [
+      {
+
+        color: 'magenta',
+      },
+      {
+
+        color: 'red',
+      },
+      {
+
+        color: 'volcano',
+      },
+      {
+
+        color: 'orange',
+      },
+      {
+
+        color: 'gold',
+      },
+      {
+
+        color: 'lime',
+      },
+      {
+
+        color: 'green',
+      },
+      {
+
+        color: 'cyan',
+      },
+      {
+
+        color: 'blue',
+      },
+      {
+
+        color: 'geekblue',
+      },
+      {
+
+        color: 'purple',
+      },
+    ]
+    
+
   return (
     <Modal
       title={isAddStatus ? lang.addTags : lang.editTags}
@@ -61,6 +111,15 @@ const TagsModalSet = memo((props: IProps)=> {
         >
           <Form.Item label={lang.tags} name="name" rules={[{ required: true}]}>
             <Input showCount maxLength={10}  placeholder={lang.input_tag_name} />
+          </Form.Item>
+          <Form.Item label={lang.color} name="color">
+            <Select
+              placeholder={lang.choose_tag_color}
+            >
+              {data.map((tag: {color: string; }) =>
+                <Option key={tag.color}>{tag.color}</Option>
+              )}
+            </Select>
           </Form.Item>
         </Form>
       </Spin>

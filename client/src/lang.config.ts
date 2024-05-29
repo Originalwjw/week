@@ -40,6 +40,10 @@ const config = {
     other_error: "请求出错，请稍后重试",
     no_tag: "无标签",
     choose_tag_color: "请选择标签颜色",
+    copy_successTitle: '成功',
+    copy_errorTitle: '错误',
+    successCopy: '已复制到剪贴板',
+    errorCopy: '复制错误',
   },
   en: {
     title: "Content Management Platform",
@@ -82,6 +86,10 @@ const config = {
     other_error: "The request failed. Please try again later！",
     no_tag: "No Tags",
     choose_tag_color: "Please select a label color",
+    copy_successTitle: 'Success',
+    copy_errorTitle: 'Error',
+    successCopy: 'Copied to clipboard',
+    errorCopy: 'Copying error',
   },
 };
 

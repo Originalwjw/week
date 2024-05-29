@@ -1,10 +1,15 @@
-import { Modal, Form, Input, Spin, Select } from "antd";
+import { Modal, Form, Input, Spin, Select, Tag } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useTagsList } from "@/pages/Data/api";
 import { addData, editData } from "@/services/dataApi";
 import { LangContext } from '@/index';
 import { memo, useContext } from "react";
 const { Option } = Select
+interface TagItem {
+  id: string;
+  name: string;
+  color?: string;
+}
 interface IProps {
   visible: boolean;
   onCancel: () => void;
@@ -75,8 +80,8 @@ const  ModalSet = memo((props: IProps)=> {
               mode="tags"
               placeholder={lang.input_tag_name}
             >
-              {tagsList.map((tag: { id: string; name: string; }) =>
-                <Option key={tag.id}>{tag.name}</Option>
+              {tagsList.map((tag: TagItem) => 
+                <Option key={tag.id}><Tag color={tag.color}>{tag.name}</Tag></Option>
               )}
             </Select>
           </Form.Item>

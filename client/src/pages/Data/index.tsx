@@ -10,7 +10,7 @@ import {
 } from 'antd';
 
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
-import type { TableProps } from 'antd';
+import { TableProps,notification } from 'antd';
 import './index.css';
 import ModalSet from './Component/ModalSet';
 import SearchBar from './Component/SearchBar';
@@ -38,46 +38,55 @@ function DataIndex() {
   const { lang } = useContext(LangContext);
   const columns : TableProps<DataType>['columns'] =[
     {
-      title: lang.id,
+      title:lang.id,
       key: 'index',
       width: 80,
       fixed: 'left',
+      align:'center',
       dataIndex: 'index',
     },
     {
       title: lang.name,
       width: 160,
       fixed: 'left',
+      align:'center',
       dataIndex: 'name',
+      render:(value)=>{
+        return (<div onClick={()=>onClickCopy(value)}>
+                  {value}
+              </div>)
+      },
     },
     {
       title: lang.description,
       width: 220,
       fixed: 'left',
+      align:'center',
       dataIndex: 'description',
       //, whiteSpace: 'nowrap'
       render: (value) =>         
-        <div style={{ textAlign: 'center' }}> 
+        <div onClick={()=>onClickCopy(value)}> 
           {value.length > 30 ? (
-        <Tooltip title={value}>
-          <span>{value.slice(0, 30)}...</span>
-        </Tooltip>
-        ) : (
-          <span>{value}</span>
-        )}
+            <Tooltip title={value}>
+              <span>{value.slice(0, 30)}...</span>
+            </Tooltip>
+            ) : (
+              <span>{value}</span>
+            )}
         </div>
-
     },
     {
       title: lang.add_time,
       width: 220,
       fixed: 'left',
+      align:'center',
       dataIndex: 'time',
       render: (time: number) => dayjs(time).format('YYYY-MM-DD HH:mm:ss'),
     },
     {
       title: lang.tags,
       width: 330,
+      align:'center',
       render:data=>{
         return(
         <Space size="middle">
@@ -85,7 +94,7 @@ function DataIndex() {
              const tag = tagsList.find((item: { id: string; }) => item.id === tagId) as TagItem | undefined;
             if (tag!==undefined) {
               return (
-                <Tag key={tag.id} color={tag.color || 'geekblue'} style={{ marginRight: 0 }}>
+                <Tag key={tag.id} color={tag.color } style={{ marginRight: 0 }} onClick={()=>onClickCopy(tag.name)}>
                   {tag.name}
                 </Tag>
               );
@@ -99,8 +108,8 @@ function DataIndex() {
     {
       title: lang.action,
       width: 220,
-      align: 'center',
       fixed: 'right',
+      align: 'center',
       render: data => {
         return (
           <Space size="middle">
@@ -141,8 +150,49 @@ function DataIndex() {
 
   const [modelVisible, setmodelVisible] = useState(false); //新增（编辑）弹窗的状态
   const [currentItem, setCurrentItem] = useState({}); // 需要被编辑的数据
+  //点击复制
+  const onClickCopy = (text:string) => {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          notification.success({
+            message: lang.copy_successTitle,
+            description: lang.successCopy,
+          });
+        })
+        .catch((err) => {
+          notification.error({
+            message: lang.copy_errorTitle,
+            description: lang.errorCopy,
 
-
+          });
+        });
+    }else {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed'; //不会影响页面布局
+      textArea.style.opacity = '0';     //透明
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+  
+      try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+          notification.success({
+            message: lang.copy_successTitle,
+            description: lang.successCopy,
+          });
+        }
+      } catch (err) {
+        notification.error({
+          message: lang.copy_errorTitle,
+          description: lang.errorCopy,
+        });
+      }
+      document.body.removeChild(textArea);
+    }
+  };
 
 
     //获取数据列表

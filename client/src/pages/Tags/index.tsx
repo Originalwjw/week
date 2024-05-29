@@ -25,7 +25,7 @@ const TagsIndex: FC<IProps> = () => {
       render:data=>{
         return(
         <Space size="middle">
-          <Tag key={data.id} color={data.color || 'geekblue'} style={{ marginRight: 0 }}>
+          <Tag key={data.id} color={data.color } style={{ marginRight: 0 }}>
                   {data.name}
           </Tag>
         </Space>

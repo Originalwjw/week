@@ -7,15 +7,18 @@ const saveTag = data => save(data, FILE_NAME);
 /**
  * 添加新标签
  * @param {string} name - 标签名称
+ * @param {string} color - 标签颜色
  */
-async function addTag(name) {
+async function addTag(name,color) {
   try {
     const tagList = read(FILE_NAME);
 
     const newTag = {
       id: uuidv4(),
       name,
+      color,
     };
+    console.log(newTag);
 
     saveTag([...tagList, newTag]);
     return newTag;
@@ -40,8 +43,9 @@ async function getTags() {
  * 修改标签
  * @param {string} id - 标签ID
  * @param {string} name - 新标签名称
+ * @param {string} color - 标签颜色
  */
-async function editTag(id, name) {
+async function editTag(id, name ,color) {
   try {
     const tagList = read(FILE_NAME);
     const isNameExists = tagList.some(tag => tag.id === id);
@@ -53,6 +57,7 @@ async function editTag(id, name) {
     const newTagList = tagList.map(tag => {
       if (tag.id === id) {
         tag.name = name;
+        tag.color = color;
       }
       return tag;
     });
