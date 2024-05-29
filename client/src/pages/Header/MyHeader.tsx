@@ -15,7 +15,6 @@ const MyHeader: FC<IProps> = () => {
   const { lang, changeLanguage } = useContext(LangContext); 
   const [language, setLanguage] = useState<any>("zh");
 
-
   useEffect(() => {
     // 从服务端获取当前语言类型
     const getLanguage = async () => {

@@ -16,6 +16,7 @@ import SearchBar from './Component/SearchBar';
 import {  delData, getData } from '@/services/dataApi';
 import dayjs from 'dayjs';
 import { useTagsList } from './tagsList';
+import useTableHeight from '@/hooks/useTableHeight'
 import { LangContext } from '@/index';
 
 interface DataType {
@@ -89,7 +90,7 @@ function DataIndex() {
     },
     {
       title: lang.tags,
-      width: 330,
+      width: 220,
       align:'center',
       render:data=>{
         return(
@@ -197,6 +198,9 @@ function DataIndex() {
       document.body.removeChild(textArea);
     }
   };
+  // 限定表格的高度
+  const otherHeight = 200;
+  const tableHeight = useTableHeight(otherHeight);
 
 
     //获取数据列表
@@ -314,6 +318,7 @@ function DataIndex() {
             onChange={onChange}
             rowKey="id"
             size='middle'
+            scroll={{y:tableHeight}}
             // pagination={{
             //   current: reqDate.page,
             //   pageSize: reqDate.per_page,

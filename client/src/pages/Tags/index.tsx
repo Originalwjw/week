@@ -5,6 +5,7 @@ import type { FC, ReactNode } from 'react'
 import { delTag, getTags } from '@/services/tagsApi'
 import TagsModalSet from './Component/ModalSet'
 import { LangContext } from "@/index";
+import useTableHeight from '@/hooks/useTableHeight'
 
 interface IProps {
   children?: ReactNode
@@ -111,6 +112,9 @@ const TagsIndex: FC<IProps> = () => {
     };
     const hasSelected = selectedRowKeys.length > 0;
     
+  // 限定表格的高度
+  const otherHeight = 200;
+  const tableHeight = useTableHeight(otherHeight);
 
   //添加数据
   const addItem = ()=>{
@@ -200,6 +204,7 @@ const TagsIndex: FC<IProps> = () => {
             rowSelection={rowSelection}
             rowKey="id"
             size='middle'
+            scroll={{y:tableHeight}}
             pagination={{
               total: count,
               pageSize: reqTags.pageSize,
