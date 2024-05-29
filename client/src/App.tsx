@@ -1,14 +1,13 @@
-// app.tsx
-import React, { useCallback, useEffect, useState, useContext } from "react";
+import React, { useCallback, useEffect, useState, useContext, lazy } from "react";
 import { DatabaseOutlined, ExperimentOutlined, SmileOutlined, TagsOutlined } from "@ant-design/icons";
 import type { MenuProps } from "antd";
 import { Layout, Menu } from "antd";
-import MyHeader from "./pages/Header/MyHeader";
-import DataIndex from "./pages/Data";
-import TagsIndex from "./pages/Tags";
 import { Navigate, Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { LangContext } from "./index"; 
-import ExperienceIndex from "./pages/Experience";
+const MyHeader = lazy(()=>import('@/pages/Header/MyHeader'))
+const DataIndex = lazy(()=>import('@/pages/Data'))
+const TagsIndex = lazy(()=>import('@/pages/Tags'))
+const ExperienceIndex = lazy(()=>import('@/pages/Experience'))
 
 const { Content,  Sider } = Layout;
 
@@ -26,7 +25,7 @@ function getItem(label: React.ReactNode, key: React.Key, icon?: React.ReactNode,
 const App: React.FC = () => {
   const { lang } = useContext(LangContext);
   const [collapsed, setCollapsed] = useState(false);
-  const [currentRoute, setCurrentRoute] = useState<string[]>(["/data"]);
+  const [currentRoute, setCurrentRoute] = useState<string[]>(["/experience"]);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -69,11 +68,32 @@ const App: React.FC = () => {
           <Content>
             <div style={{ padding: 24, minHeight: 360 }}>
               <Routes>
-                <Route path="/experience" element={<ExperienceIndex />} />
-                <Route path="/data" element={<DataIndex />} />
-                <Route path="/tags" element={<TagsIndex />} />
-                <Route path="/" element={<Navigate to="/data" />} />
-                <Route path="/index.html" element={<Navigate to="/data" />} />
+                <Route 
+                  path="/experience" 
+                  element={
+                    <React.Suspense fallback={<div>Loading...</div>}>
+                      <ExperienceIndex />
+                    </React.Suspense>} />
+                <Route 
+                  path="/data" 
+                  element={
+                    <React.Suspense fallback={<div>Loading...</div>}>
+                      <DataIndex />
+                    </React.Suspense>} />
+                <Route 
+                  path="/tags" 
+                  element={
+                    <React.Suspense fallback={<div>Loading...</div>}>
+                        <TagsIndex />
+                    </React.Suspense>} />
+                <Route 
+                  path="/" 
+                  element={
+                    <Navigate to="/experience" />} />
+                <Route 
+                  path="/index.html" 
+                  element={
+                    <Navigate to="/experience" />} />
                 <Route
                   path="*"
                   element={

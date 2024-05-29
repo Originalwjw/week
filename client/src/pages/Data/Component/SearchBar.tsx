@@ -1,6 +1,6 @@
 import React, { memo, useContext } from "react";
 import { Form, Button, Input, Select, DatePicker, Tag } from "antd";
-import { useTagsList } from "@/pages/Data/api";
+import { useTagsList } from "@/pages/Data/tagsList";
 import { RedoOutlined, SearchOutlined } from "@ant-design/icons";
 import { LangContext } from '@/index';
 const { Option } = Select
@@ -32,7 +32,6 @@ const SearchBar: React.FC<SearchBarProps> = memo((props) => {
     let searchRule: any = {
       ...values,
     };
-    // console.log("handleSearch=>searchRule:", searchRule);
     onSearchRuleChange(searchRule);
   };
 

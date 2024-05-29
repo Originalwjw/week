@@ -20,15 +20,14 @@ export const addData = async (data: Data) => {
 };
 
 
-export const getData = async (params: any) => {
-    console.log('params',params);
+export const getData = async (params: Data) => {
     return apiInstance({
         url:'/data',
         method:'GET',
         params,
     })
 }
-export const editData = async (data: any) => {
+export const editData = async (data: Data) => {
     return apiInstance({
         url: '/data',
         method: 'PUT',

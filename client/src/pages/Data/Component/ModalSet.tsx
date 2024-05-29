@@ -1,6 +1,6 @@
 import { Modal, Form, Input, Spin, Select, Tag } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { useTagsList } from "@/pages/Data/api";
+import { useTagsList } from "@/pages/Data/tagsList";
 import { addData, editData } from "@/services/dataApi";
 import { LangContext } from '@/index';
 import { memo, useContext } from "react";
@@ -18,7 +18,6 @@ interface IProps {
 }
 const  ModalSet = memo((props: IProps)=> {
   const { onCancel, onOk, visible, currentItem: initialValues = {} } = props;
-  console.log('props', props);
 
   const [form] = Form.useForm();
   const tagsList = useTagsList();
@@ -32,13 +31,11 @@ const  ModalSet = memo((props: IProps)=> {
   if (initialValues && Object.keys(initialValues).length > 0) {
     isAddStatus = false
   }
-  console.log(initialValues);
 
   const modalSetOk = () => {
     form.submit();
   };
   const onFinish = async (values: any) => {
-    console.log({ ...values, id: initialValues.id, });
     if (isAddStatus) {
       await addData(values)
     } else {

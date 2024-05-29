@@ -23,13 +23,11 @@ const TagsModalSet = memo((props: IProps)=> {
   if (initialValues && Object.keys(initialValues).length > 0) {
     isAddStatus = false
   }
-  console.log(initialValues);
   
   const modalSetOk = () => {
     form.submit();
   };
   const onFinish = async (values: any) => {
-    console.log({...values, id: initialValues.id,});
     if (isAddStatus) {
       await addTag(values)
     } else {

@@ -11,12 +11,11 @@ import {
 
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { TableProps,notification } from 'antd';
-import './index.css';
 import ModalSet from './Component/ModalSet';
 import SearchBar from './Component/SearchBar';
 import {  delData, getData } from '@/services/dataApi';
 import dayjs from 'dayjs';
-import { useTagsList } from './api';
+import { useTagsList } from './tagsList';
 import { LangContext } from '@/index';
 
 interface DataType {
@@ -51,11 +50,16 @@ function DataIndex() {
       fixed: 'left',
       align:'center',
       dataIndex: 'name',
-      render:(value)=>{
-        return (<div onClick={()=>onClickCopy(value)}>
-                  {value}
-              </div>)
-      },
+      render: (value) =>         
+        <div onClick={()=>onClickCopy(value)}> 
+          {value.length > 30 ? (
+            <Tooltip title={value}>
+              <span>{value.slice(0, 30)}...</span>
+            </Tooltip>
+            ) : (
+              <span>{value}</span>
+            )}
+        </div>
     },
     {
       title: lang.description,
@@ -201,7 +205,7 @@ function DataIndex() {
     useEffect(() => {
       const getList = async () => {
         setLoading(true);
-        console.log('reqDate',reqDate);
+        // console.log('reqDate',reqDate);
         const res = await getData(reqDate);
         // console.log('res.data', res);
         const startIdx = (reqDate.pageNo - 1) * reqDate.pageSize;

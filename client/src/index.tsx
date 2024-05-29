@@ -26,15 +26,7 @@ const defaultLangContext: LangContextProps = {
 
 export const LangContext = createContext<LangContextProps>(defaultLangContext);
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
-// root.render(
-//   <Provider store={store}>
-//     <ConfigProvider locale={lang}>
-//       <Router>
-//         <App />
-//       </Router>
-//     </ConfigProvider>
-//   </Provider>
-// )
+
 const MainApp = () => {
   const [locale, setLocale] = useState(zhCN);
   const [lang, setLang] = useState(langConfig.zh);

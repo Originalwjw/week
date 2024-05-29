@@ -84,7 +84,6 @@ const TagsIndex: FC<IProps> = () => {
     const getList = async () => {
       setLoading(true);
       const res = await getTags(reqTags);
-      console.log('res.data', res.data);
       
       setList(res.data);
       // setCount(res.data.pageInfo.total);
@@ -104,7 +103,6 @@ const TagsIndex: FC<IProps> = () => {
     //表格选择
     const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
     const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-      console.log('selectedRowKeys changed: ', newSelectedRowKeys);
       setSelectedRowKeys(newSelectedRowKeys);
     };
     const rowSelection = {
@@ -112,7 +110,6 @@ const TagsIndex: FC<IProps> = () => {
       onChange: onSelectChange,
     };
     const hasSelected = selectedRowKeys.length > 0;
-    console.log('selectedRowKeys',selectedRowKeys);
     
 
   //添加数据
@@ -131,7 +128,6 @@ const TagsIndex: FC<IProps> = () => {
   //添加(编辑)成功后，重新拉取列表（这里参数要复原）
   const modalConfigm = async (tags: string)=>{
     setmodelVisible(false);
-    console.log("ModalData:", tags);
     // await addData(data)
 
     setReqTags({

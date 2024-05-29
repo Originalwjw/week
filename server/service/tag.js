@@ -18,7 +18,6 @@ async function addTag(name,color) {
       name,
       color,
     };
-    console.log(newTag);
 
     saveTag([...tagList, newTag]);
     return newTag;

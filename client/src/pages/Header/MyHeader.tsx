@@ -60,4 +60,3 @@ const MyHeader: FC<IProps> = () => {
 };
 
 export default MyHeader;
-
