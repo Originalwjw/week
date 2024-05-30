@@ -1,7 +1,8 @@
 import { Modal, Form, Input, Spin, Select} from "antd";
 import { addTag, editTag } from "@/services/tagsApi";
-import { memo, useContext } from "react";
-import { LangContext } from '@/index';
+import { memo } from "react";
+import { useSelector } from "react-redux";
+import { LangState } from "@/store";
 const { Option } = Select
 interface IProps {
   visible: boolean;
@@ -12,7 +13,7 @@ interface IProps {
 const TagsModalSet = memo((props: IProps)=> {
   const { onCancel, onOk, visible, currentItem: initialValues = {} } = props;
   // console.log('props',props);
-  const { lang } = useContext(LangContext);
+  const lang = useSelector((state: LangState) => state.lang.lang);
   const [form] = Form.useForm();
   const layout = {
     labelCol: { span: 5 },

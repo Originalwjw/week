@@ -2,8 +2,9 @@ import { Modal, Form, Input, Spin, Select, Tag } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import { useTagsList } from "@/pages/Data/tagsList";
 import { addData, editData } from "@/services/dataApi";
-import { LangContext } from '@/index';
-import { memo, useContext } from "react";
+import { memo } from "react";
+import { useSelector } from "react-redux";
+import { LangState } from "@/store";
 const { Option } = Select
 interface TagItem {
   id: string;
@@ -21,7 +22,7 @@ const  ModalSet = memo((props: IProps)=> {
 
   const [form] = Form.useForm();
   const tagsList = useTagsList();
-  const { lang } = useContext(LangContext);
+  const lang = useSelector((state: LangState) => state.lang.lang);
   const layout = {
     labelCol: { span: 5 },
     wrapperCol: { span: 19 },

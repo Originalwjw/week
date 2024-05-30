@@ -1,4 +1,4 @@
-import  { useEffect, useState, useCallback, useContext } from 'react';
+import  { useEffect, useState, useCallback } from 'react';
 import {
   Button,
   Table,
@@ -17,7 +17,8 @@ import {  delData, getData } from '@/services/dataApi';
 import dayjs from 'dayjs';
 import { useTagsList } from './tagsList';
 import useTableHeight from '@/hooks/useTableHeight'
-import { LangContext } from '@/index';
+import { useSelector } from 'react-redux';
+import { LangState } from '@/store';
 
 interface DataType {
   index: number;
@@ -35,7 +36,7 @@ interface TagItem {
 }
 
 function DataIndex() {
-  const { lang } = useContext(LangContext);
+  const lang = useSelector((state: LangState) => state.lang.lang);
   const columns : TableProps<DataType>['columns'] =[
     {
       title:lang.id,

@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosResponse } from 'axios'
 import { message } from 'antd'
-import { LangContext } from '@/index';
-import { useContext } from 'react';
+import { useSelector } from 'react-redux';
+import { LangState } from '@/store';
 
 const apiInstance: AxiosInstance = axios.create({
   baseURL: '/api', // 设置你API地址根路径
@@ -37,7 +37,7 @@ apiInstance.interceptors.response.use(
   },
   (error) => {
     // 处理请求错误
-    const { lang } = useContext(LangContext);
+    const lang = useSelector((state: LangState) => state.lang.lang);
     message.error(lang.other_error)
     return Promise.reject(error)
   }

@@ -1,35 +1,38 @@
 import { Layout, Switch } from "antd";
 import { Header } from "antd/es/layout/layout";
-import  {  useContext, useEffect, useState } from "react";
+import  { useEffect } from "react";
 import type { FC, ReactNode } from "react";
-
 import styles from "./Header.module.css";
 import { SettingOutlined } from "@ant-design/icons";
 import { getLangAPI, setLangAPI } from "@/services/langApi";
-import { LangContext } from "@/index"; 
+import { LangState } from '@/store';
+import { setLanguage } from '@/store/modules/lang';
+import { useDispatch, useSelector } from "react-redux";
 interface IProps {
   children?: ReactNode;
 }
 
 const MyHeader: FC<IProps> = () => {
-  const { lang, changeLanguage } = useContext(LangContext); 
-  const [language, setLanguage] = useState<any>("zh");
+  const dispatch = useDispatch();
+  const language = useSelector((state: LangState) => state.lang.locale);
+  const lang = useSelector((state: LangState) => state.lang.lang);
 
   useEffect(() => {
-    // 从服务端获取当前语言类型
+
     const getLanguage = async () => {
       const currentLang = await getLangAPI()
       // console.log('currentLang',currentLang);
-      setLanguage(currentLang.data);
+      dispatch(setLanguage(currentLang.data));
     };
 
     getLanguage();
-  }, [language]);
+  }, [dispatch]);
+
   const langChange=async (checked: boolean) => {
     const newLang = checked ? "zh" : "en";
-    setLanguage(newLang);
     await setLangAPI({lang : newLang})
-    changeLanguage(newLang);
+    // changeLanguage(newLang);
+    dispatch(setLanguage(newLang));
   }
 
   return (
@@ -41,12 +44,12 @@ const MyHeader: FC<IProps> = () => {
           justifyContent: "space-between",
         }}
       >
-        <h2 className={styles.header}>{lang.title}</h2>
+        <h2 className={styles.headerSet}>{lang.title}</h2>
             <div className={styles.setLang} >
               <SettingOutlined /> {lang.setting}   
                 <div className={styles.language} >
                   <Switch 
-                    defaultChecked 
+                    checked={language === 'zh'}
                     checkedChildren="中文" 
                     unCheckedChildren="English" 
                     onChange={langChange}/>

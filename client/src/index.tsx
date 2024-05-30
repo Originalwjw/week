@@ -1,59 +1,41 @@
-import React, { createContext, useState } from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App'
-import { HashRouter as Router } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import store from './store'
-import dayjs from 'dayjs'
+// index.tsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App';
+import { HashRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store';
+import 'dayjs/locale/zh-cn';
+import 'dayjs/locale/en';
+import './index.css';
+import dayjs from 'dayjs';
 import { ConfigProvider } from 'antd';
-import 'dayjs/locale/zh-cn'
-import 'dayjs/locale/en'
-import './index.css'
+import { getLangAPI } from './services/langApi';
+import { setLanguage } from './store/modules/lang';
 import zhCN from 'antd/es/locale/zh_CN';
 import enUS from 'antd/es/locale/en_US';
-import langConfig from './lang.config';
+
 // 设置 dayjs 的默认本地化语言为中文
-dayjs.locale('zh-cn')
-interface LangContextProps {
-  lang: typeof langConfig['zh'] | typeof langConfig['en'];
-  changeLanguage: (langCode: string) => void;
-}
+dayjs.locale('zh-cn');
 
-const defaultLangContext: LangContextProps = {
-  lang: langConfig.zh,
-  changeLanguage: () => {},
-};
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
-export const LangContext = createContext<LangContextProps>(defaultLangContext);
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
+const initializeApp = async () => {
+  //防止页面刷新时，有短暂时间的 中文
+  const currentLang = await getLangAPI();
+  const locale = currentLang.data;
 
-const MainApp = () => {
-  const [locale, setLocale] = useState(zhCN);
-  const [lang, setLang] = useState(langConfig.zh);
+  store.dispatch(setLanguage(locale));
+  dayjs.locale(locale === 'zh' ? 'zh-cn' : 'en');
 
-  const changeLanguage = (lang: string) => {
-    if (lang === 'zh') {
-      dayjs.locale('zh-cn');
-      setLocale(zhCN);
-      setLang(langConfig.zh);
-    } else {
-      dayjs.locale('en');
-      setLocale(enUS);
-      setLang(langConfig.en);
-    }
-  };
-
-  return (
-    <ConfigProvider locale={locale}>
-      <LangContext.Provider value={{ lang, changeLanguage }}>
-      <Provider store={store}>
+  root.render(
+    <Provider store={store}>
+      <ConfigProvider locale={locale === 'zh' ? zhCN : enUS}>
         <Router>
           <App />
         </Router>
-      </Provider>
-      </LangContext.Provider>
-    </ConfigProvider>
+      </ConfigProvider>
+    </Provider>
   );
 };
-
-root.render(<MainApp />);
+initializeApp();

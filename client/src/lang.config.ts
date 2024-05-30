@@ -91,4 +91,6 @@ const config = {
   },
 };
 
+export type LangConfig = typeof config;
+export type LangKeys = keyof LangConfig;
 export default config;

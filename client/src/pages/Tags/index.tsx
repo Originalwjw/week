@@ -1,11 +1,12 @@
 import { DeleteOutlined, EditOutlined, MinusOutlined, PlusOutlined } from '@ant-design/icons'
 import { Button, Popconfirm, Space, Spin, Table, TableProps, Tag } from 'antd'
-import React, {  useContext, useEffect,  useState } from 'react'
+import React, { useEffect,  useState } from 'react'
 import type { FC, ReactNode } from 'react'
 import { delTag, getTags } from '@/services/tagsApi'
 import TagsModalSet from './Component/ModalSet'
-import { LangContext } from "@/index";
 import useTableHeight from '@/hooks/useTableHeight'
+import { useSelector } from 'react-redux'
+import { LangState } from '@/store'
 
 interface IProps {
   children?: ReactNode
@@ -16,7 +17,7 @@ interface TagItem {
   color?: string;
 }
 const TagsIndex: FC<IProps> = () => {
-  const { lang } = useContext(LangContext);
+  const lang = useSelector((state: LangState) => state.lang.lang);
   //useMemo根据lange变化来重新渲染
   // const columns = useMemo<TableProps<IProps>['columns']> (()=>[],[lang])
   const columns : TableProps<IProps>['columns'] =[

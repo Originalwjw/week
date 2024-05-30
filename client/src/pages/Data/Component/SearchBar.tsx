@@ -1,8 +1,9 @@
-import React, { memo, useContext } from "react";
+import React, { memo } from "react";
 import { Form, Button, Input, Select, DatePicker, Tag } from "antd";
 import { useTagsList } from "@/pages/Data/tagsList";
 import { RedoOutlined, SearchOutlined } from "@ant-design/icons";
-import { LangContext } from '@/index';
+import { useSelector } from "react-redux";
+import { LangState } from "@/store";
 const { Option } = Select
 const { RangePicker } = DatePicker
 interface TagItem {
@@ -14,7 +15,7 @@ interface SearchBarProps {
   onSearchRuleChange: (values: any) => void;
 }
 const SearchBar: React.FC<SearchBarProps> = memo((props) => {
-  const { lang } = useContext(LangContext);
+  const lang = useSelector((state: LangState) => state.lang.lang);
   const [form] = Form.useForm();
   const { onSearchRuleChange } = props;
   const tagsList: TagItem[] = useTagsList();
