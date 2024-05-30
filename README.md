@@ -50,7 +50,10 @@ client
       ├── tagsApi.ts # tags请求接口
     ├── setupProxy.js # koa跨域配置
     ├── store
-      ├── index.ts
+      ├── index.ts	导出lang.ts
+    	├── modules
+        ├── lang.ts # 国际化store
+
 ├── tsconfig.json 
 ├── README.md 
 ├── craco.config.js #craco配置把@识别为src
