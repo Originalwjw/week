@@ -87,7 +87,7 @@ async function delTag(id) {
     if (id&&id[0] !== '') {
       newTagsList = tagsList.filter(tag => id.every(id => tag.id!==id));
     }
-    saveTag(newTagsList);
+     saveTag(newTagsList);
   } catch (error) {
     throw error;
   }

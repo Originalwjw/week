@@ -24,7 +24,7 @@ apiInstance.interceptors.response.use(
   (response: AxiosResponse) => {
     const responseData = response.data
     if (responseData.code === 200) {
-      message.success(responseData.msg)
+      // message.success(responseData.msg)
     } else if (responseData.code === 201) {
       return responseData
     } else if(responseData.code === 401){

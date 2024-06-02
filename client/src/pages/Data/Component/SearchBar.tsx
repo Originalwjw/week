@@ -61,8 +61,7 @@ const SearchBar: React.FC<SearchBarProps> = memo((props) => {
           <Form.Item 
             label={lang.name} 
             name="name" 
-            style={itemStyle}
-            rules={[{ required: true}]}>
+            style={itemStyle}>
             <Input showCount maxLength={20}  placeholder={lang.input_name} />
           </Form.Item>
           <Form.Item 

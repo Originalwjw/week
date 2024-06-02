@@ -12,7 +12,7 @@ process.on('uncaughtException', (err, origin) => {
 });
 
 // 静态资源目录，
-// app.use(serve('../client/build'));
+app.use(serve('../client/build'));
 app.use(koaBody());
 
 // 统一接口错误处理
