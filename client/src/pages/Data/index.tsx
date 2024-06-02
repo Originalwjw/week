@@ -149,7 +149,7 @@ function DataIndex() {
     startTime: '',
     endTime: '',
     pageNo: 1,
-    pageSize:5
+    pageSize: 10
   });
   const  tagsList  = useTagsList();
   const [loading, setLoading] = useState(false);

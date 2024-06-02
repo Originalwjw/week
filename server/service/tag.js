@@ -69,7 +69,7 @@ async function editTag(id, name ,color) {
 
 /**
  * 删除标签
- * @param {string} id - 标签ID
+ * @param {string[]} id - 标签ID数组
  */
 async function delTag(id) {
   try {

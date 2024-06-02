@@ -1,28 +1,35 @@
-import type { FC, ReactNode } from 'react'
+import { FC, ReactNode, useEffect, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeHighlight from 'rehype-highlight';
+import 'github-markdown-css/github-markdown.css';
+import 'highlight.js/styles/github.css'; // 你也可以选择其他样式
+
 interface IProps {
-  children?: ReactNode
+  children?: ReactNode;
 }
+
 const ExperienceIndex: FC<IProps> = () => {
-  // Markdown 格式的文本内容
-  const markdownContent = `
-  ## 1 Markdown.com.cn 简介
+  const [markdownContent, setMarkdownContent] = useState('');
 
-  - 支持自定义样式的 Markdown 编辑器
-  - 支持微信公众号、知乎和稀土掘金
-  - 点击右上方对应图标，一键复制到各平台
-  
-  ## 2 Markdown语法教程
-  
-  ### 2.1 标题
-  
-  不同数量的可以完成不同的标题，如下：
-      `;
+  useEffect(() => {
+    // Fetch the Markdown file from the public folder
+    fetch('/Experience.md')
+      .then(response => response.text())
+      .then(text => setMarkdownContent(text))
+      .catch(error => console.error('Error fetching markdown file:', error));
+  }, []);
+
   return (
-    <div className="my-experience">
-      <ReactMarkdown>{markdownContent}</ReactMarkdown>
+    <div className="markdown-body">
+      <ReactMarkdown
+        remarkPlugins={[remarkGfm]}
+        rehypePlugins={[rehypeHighlight]}
+      >
+        {markdownContent}
+      </ReactMarkdown>
     </div>
-  )
+  );
 }
 
-export default ExperienceIndex
+export default ExperienceIndex;

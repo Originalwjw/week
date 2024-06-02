@@ -43,47 +43,36 @@ const TagsModalSet = memo((props: IProps)=> {
 
     const data = [
       {
-
         color: 'magenta',
       },
       {
-
         color: 'red',
       },
       {
-
         color: 'volcano',
       },
       {
-
         color: 'orange',
       },
       {
-
         color: 'gold',
       },
       {
-
         color: 'lime',
       },
       {
-
         color: 'green',
       },
       {
-
         color: 'cyan',
       },
       {
-
         color: 'blue',
       },
       {
-
         color: 'geekblue',
       },
       {
-
         color: 'purple',
       },
     ]

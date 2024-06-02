@@ -12,12 +12,13 @@
     "@types/node": "^16.18.39",
     "@types/react": "^18.2.18",
     "@types/react-dom": "^18.2.7",
-    "antd": "^5.7.3",
+    "antd": "5.17.4",
     "axios": "^1.4.0",
     "chroma-js": "^2.4.2",
     "css-loader": "^6.8.1",
     "customize-cra": "^1.0.0",
     "dayjs": "^1.11.9",
+    "github-markdown-css": "^5.5.1",
     "http-proxy-middleware": "^2.0.1",
     "react": "^18.2.0",
     "react-app-rewired": "^2.2.1",
@@ -27,6 +28,8 @@
     "react-router-dom": "^6.14.2",
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
+    "rehype-highlight": "^7.0.0",
+    "remark-gfm": "^4.0.0",
     "style-loader": "^3.3.3",
     "typescript": "^4.9.5",
     "web-vitals": "^2.1.4"
@@ -58,6 +61,7 @@
   "devDependencies": {
     "@ant-design/icons": "^5.3.6",
     "@craco/craco": "^7.1.0",
-    "@types/chroma-js": "^2.4.0"
+    "@types/chroma-js": "^2.4.0",
+    "raw-loader": "^4.0.2"
   }
 }
