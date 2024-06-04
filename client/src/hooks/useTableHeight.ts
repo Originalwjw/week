@@ -14,7 +14,6 @@ const useTableHeight = (otherElementsHeight: number) => {
     updateTableHeight()
     // 监听窗口大小变化，动态更新表格高度
     window.addEventListener('resize', updateTableHeight)
-    // 在组件卸载时移除监听
     return () => {
       window.removeEventListener('resize', updateTableHeight)
     }

@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { Form, Button, Input, Select, DatePicker, Tag } from "antd";
-import { useTagsList } from "@/pages/Data/tagsList";
+import { useTagsList } from "@/hooks/useTagsList";
 import { RedoOutlined, SearchOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { LangState } from "@/store";
@@ -74,10 +74,12 @@ const SearchBar: React.FC<SearchBarProps> = memo((props) => {
               mode="tags"
               placeholder={lang.input_tag_name}
               style={{ minWidth: 120 }}
+              
               >
               {tagsList.map((tag: TagItem) => 
                 <Option key={tag.id}><Tag color={tag.color}>{tag.name}</Tag></Option>
               )}
+
             </Select>
           </Form.Item>
           <Form.Item 

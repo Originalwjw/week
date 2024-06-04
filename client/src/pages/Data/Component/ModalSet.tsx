@@ -1,6 +1,6 @@
 import { Modal, Form, Input, Spin, Select, Tag } from "antd";
 import TextArea from "antd/es/input/TextArea";
-import { useTagsList } from "@/pages/Data/tagsList";
+import { useTagsList } from "@/hooks/useTagsList";
 import { addData, editData } from "@/services/dataApi";
 import { memo } from "react";
 import { useSelector } from "react-redux";

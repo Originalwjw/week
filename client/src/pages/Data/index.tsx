@@ -15,7 +15,7 @@ import ModalSet from './Component/ModalSet';
 import SearchBar from './Component/SearchBar';
 import {  delData, getData } from '@/services/dataApi';
 import dayjs from 'dayjs';
-import { useTagsList } from './tagsList';
+import { useTagsList } from '@/hooks/useTagsList';
 import useTableHeight from '@/hooks/useTableHeight'
 import { useSelector } from 'react-redux';
 import { LangState } from '@/store';
