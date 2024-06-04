@@ -41,7 +41,7 @@ function DataIndex() {
     {
       title:lang.id,
       key: 'index',
-      width: 80,
+      width: 60,
       fixed: 'left',
       align:'center',
       dataIndex: 'index',
@@ -83,7 +83,7 @@ function DataIndex() {
     },
     {
       title: lang.add_time,
-      width: 220,
+      width: 160,
       fixed: 'left',
       align:'center',
       dataIndex: 'time',
@@ -91,7 +91,7 @@ function DataIndex() {
     },
     {
       title: lang.tags,
-      width: 220,
+      width: 130,
       align:'center',
       render:data=>{
         return(
@@ -113,7 +113,7 @@ function DataIndex() {
     },
     {
       title: lang.action,
-      width: 220,
+      width: 120,
       fixed: 'right',
       align: 'center',
       render: data => {

@@ -42,6 +42,7 @@ const SearchBar: React.FC<SearchBarProps> = memo((props) => {
     padding: "25px 10px",
     marginBottom: "20px",
     borderBottom: "1px solid #f0f0f0",
+
   };
   const itemStyle = {
     flex: '1 1 auto',
@@ -57,7 +58,7 @@ const SearchBar: React.FC<SearchBarProps> = memo((props) => {
   };
   return (
     <>
-      <Form layout="inline" form={form} style={formStyle}>
+      <Form layout="horizontal" form={form} style={formStyle}>
           <Form.Item 
             label={lang.name} 
             name="name" 
@@ -88,9 +89,8 @@ const SearchBar: React.FC<SearchBarProps> = memo((props) => {
           </Form.Item>
 
         <div 
-        style={buttonStyle}>
-
-          <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}>
+          style={buttonStyle}>
+          <Button type="primary" icon={<SearchOutlined />}  style={{ marginLeft: 8 }}  onClick={handleSearch}>
             {lang.search}
           </Button>
           <Button icon={<RedoOutlined />} style={{ marginLeft: 8 }} onClick={handleReset}>
