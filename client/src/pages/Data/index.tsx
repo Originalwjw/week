@@ -15,7 +15,7 @@ import ModalSet from './Component/ModalSet';
 import SearchBar from './Component/SearchBar';
 import {  delData, getData } from '@/services/dataApi';
 import dayjs from 'dayjs';
-import { useTagsList } from './tagsList';
+import { useTagsList } from '@/hooks/useTagsList';
 import useTableHeight from '@/hooks/useTableHeight'
 import { useSelector } from 'react-redux';
 import { LangState } from '@/store';
@@ -41,7 +41,7 @@ function DataIndex() {
     {
       title:lang.id,
       key: 'index',
-      width: 80,
+      width: 60,
       fixed: 'left',
       align:'center',
       dataIndex: 'index',
@@ -83,7 +83,7 @@ function DataIndex() {
     },
     {
       title: lang.add_time,
-      width: 220,
+      width: 160,
       fixed: 'left',
       align:'center',
       dataIndex: 'time',
@@ -91,7 +91,7 @@ function DataIndex() {
     },
     {
       title: lang.tags,
-      width: 220,
+      width: 130,
       align:'center',
       render:data=>{
         return(
@@ -113,7 +113,7 @@ function DataIndex() {
     },
     {
       title: lang.action,
-      width: 220,
+      width: 120,
       fixed: 'right',
       align: 'center',
       render: data => {
@@ -149,7 +149,7 @@ function DataIndex() {
     startTime: '',
     endTime: '',
     pageNo: 1,
-    pageSize:10
+    pageSize: 10
   });
   const  tagsList  = useTagsList();
   const [loading, setLoading] = useState(false);
@@ -225,9 +225,7 @@ function DataIndex() {
       getList();
       setLoading(false);
     }, [reqDate])
-    
-
-
+  
 
   // 搜索框内容变化
   const onSearchRuleChange = useCallback((values:any) => {
@@ -258,12 +256,20 @@ function DataIndex() {
   }
 
   //添加(编辑)成功后，重新拉取列表（这里参数要复原）
-  const modalConfigm = async (data: any)=>{
+  const modalConfigm = async ()=>{
     setmodelVisible(false);
+    //判断是否是编辑 编辑返回当前页 新增返回第一页
+    if (currentItem && Object.keys(currentItem).length > 0) {
+      setReqDate({
+        ...reqDate,
+      })
+    } else {
+      setReqDate({
+        ...reqDate,
+        pageNo: 1,
+      })
+    }
 
-    setReqDate({
-      ...reqDate,
-    })
   }
   //编辑
   const editDataButton = async(data: any)=>{
@@ -277,10 +283,19 @@ function DataIndex() {
   //删除
   const delDataButton =async (data: { id: string }) => {
     await delData({ id: data.id });
-      // 更新列表
-        setReqDate({
-      ...reqDate,
-    })
+    //删除时如果是当前页最后一条内容，跳转到上一页
+    const currentPageNum = list.length - 1; // 当前页剩余数据项
+    if (currentPageNum === 0) {
+      setReqDate({
+        ...reqDate,
+        pageNo:reqDate.pageNo > 1? reqDate.pageNo - 1 : 1
+      })
+    } else {
+      setReqDate({
+        ...reqDate,
+      })
+    }
+
   }
 
   return (
@@ -320,15 +335,10 @@ function DataIndex() {
             rowKey="id"
             size='middle'
             scroll={{y:tableHeight}}
-            // pagination={{
-            //   current: reqDate.page,
-            //   pageSize: reqDate.per_page,
-            //   total: count,
-            // }}
             pagination={{
               total: count,
+              current:reqDate.pageNo,
               pageSize: reqDate.pageSize,
-              // onChange,
               size:"small",
               showSizeChanger:true,
               showQuickJumper:true,

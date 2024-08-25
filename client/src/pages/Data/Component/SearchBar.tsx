@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { Form, Button, Input, Select, DatePicker, Tag } from "antd";
-import { useTagsList } from "@/pages/Data/tagsList";
+import { useTagsList } from "@/hooks/useTagsList";
 import { RedoOutlined, SearchOutlined } from "@ant-design/icons";
 import { useSelector } from "react-redux";
 import { LangState } from "@/store";
@@ -42,6 +42,7 @@ const SearchBar: React.FC<SearchBarProps> = memo((props) => {
     padding: "25px 10px",
     marginBottom: "20px",
     borderBottom: "1px solid #f0f0f0",
+
   };
   const itemStyle = {
     flex: '1 1 auto',
@@ -57,12 +58,11 @@ const SearchBar: React.FC<SearchBarProps> = memo((props) => {
   };
   return (
     <>
-      <Form layout="inline" form={form} style={formStyle}>
+      <Form layout="horizontal" form={form} style={formStyle}>
           <Form.Item 
             label={lang.name} 
             name="name" 
-            style={itemStyle}
-            rules={[{ required: true}]}>
+            style={itemStyle}>
             <Input showCount maxLength={20}  placeholder={lang.input_name} />
           </Form.Item>
           <Form.Item 
@@ -74,10 +74,12 @@ const SearchBar: React.FC<SearchBarProps> = memo((props) => {
               mode="tags"
               placeholder={lang.input_tag_name}
               style={{ minWidth: 120 }}
+              
               >
               {tagsList.map((tag: TagItem) => 
                 <Option key={tag.id}><Tag color={tag.color}>{tag.name}</Tag></Option>
               )}
+
             </Select>
           </Form.Item>
           <Form.Item 
@@ -89,9 +91,8 @@ const SearchBar: React.FC<SearchBarProps> = memo((props) => {
           </Form.Item>
 
         <div 
-        style={buttonStyle}>
-
-          <Button type="primary" icon={<SearchOutlined />} onClick={handleSearch}>
+          style={buttonStyle}>
+          <Button type="primary" icon={<SearchOutlined />}  style={{ marginLeft: 8 }}  onClick={handleSearch}>
             {lang.search}
           </Button>
           <Button icon={<RedoOutlined />} style={{ marginLeft: 8 }} onClick={handleReset}>

@@ -106,7 +106,7 @@ async function delTag(ctx) {
     }
 
     const { data } = await dataService.getData();
-    const isThisIdWasUsed = id.every(id => data.some(item => item.tags.includes(id)));
+    const isThisIdWasUsed = id.some(id => data.some(item => item.tags.includes(id)));
 
     if (isThisIdWasUsed) {
       ctx.body = {

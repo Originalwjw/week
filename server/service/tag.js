@@ -69,7 +69,7 @@ async function editTag(id, name ,color) {
 
 /**
  * 删除标签
- * @param {string} id - 标签ID
+ * @param {string[]} id - 标签ID数组
  */
 async function delTag(id) {
   try {
@@ -87,7 +87,7 @@ async function delTag(id) {
     if (id&&id[0] !== '') {
       newTagsList = tagsList.filter(tag => id.every(id => tag.id!==id));
     }
-    saveTag(newTagsList);
+     saveTag(newTagsList);
   } catch (error) {
     throw error;
   }
