@@ -152,6 +152,3 @@ const ExperienceIndex = lazy(()=>import('@/pages/Experience'))
 GENERATE_SOURCEMAP=false
 ```
 
-## 4.项目心得
-
-非常感谢金山办公的培训，这8次课的培训让我对自己掌握的前端零散的知识体系化，标准化。老师们不仅讲解前端的基础知识，还提到一些前端的 前沿技术（Tailwind CSS），学习源码等等。我也受到老师的一些启发，如课堂上演示通过`sourceMap`来查看源码 也就有了`.env`文件打包时不生成`sourceMap` --防止泄露源码，还有表格中字段的 点击复制 是受postman接口能点击复制而来。
